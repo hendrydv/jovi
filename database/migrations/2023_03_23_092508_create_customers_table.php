@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('contract_end_date');
             $table->boolean('active');
             $table->string('preferred_month');
-            $table->string('notes');
+            $table->text('notes')->nullable();
         });
     }
 
