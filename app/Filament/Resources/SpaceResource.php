@@ -37,6 +37,9 @@ class SpaceResource extends Resource
                     })
                     ->required()
                     ->label('Department'),
+                Forms\Components\Select::make('machines')
+                    ->multiple()
+                    ->relationship('machines', 'type')
             ]);
     }
 

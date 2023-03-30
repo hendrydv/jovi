@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
+            MachineSeeder::class,
         ]);
 
         $customers = Customer::factory()->count(10)->create();

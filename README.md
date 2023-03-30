@@ -21,6 +21,7 @@ Gebasseerd op het Back-end framework Laravel en werkt met het admin panel Filame
 ### Laravel models
 - `php artisan make:model ModelNaam --migration` Eqoulent model maken met de migration
 - `php artisan migrate` Migrations uitvoeren
+- `php artisan make:migration model_naam` Lege migration aanmaken
 
 ### Filament admin panel
 - `php artisan make:filament-resource ModelNaam --generate` Filament resouerce maken met alle tabel en form velden

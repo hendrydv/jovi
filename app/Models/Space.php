@@ -18,4 +18,14 @@ class Space extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function machines()
+    {
+        return $this->belongsToMany(
+            Machine::class,
+            'machines_spaces',
+            'space_id',
+            'machine_id',
+        );
+    }
 }
