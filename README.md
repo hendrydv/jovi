@@ -32,3 +32,5 @@ Gebasseerd op het Back-end framework Laravel en werkt met het admin panel Filame
 - `php artisan make:seeder ModelNaamSeeder` Seeder aanmaken voor een model
 
 Alle fake data sources zijn <a href="https://fakerphp.github.io/">hier</a> te vinden.
+
+Alle icons die gebruikt worden zijn <a href="https://v1.heroicons.com/">hier</a> te vinden.

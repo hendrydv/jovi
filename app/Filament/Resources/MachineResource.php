@@ -73,14 +73,14 @@ class MachineResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\QuestionsRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -88,5 +88,5 @@ class MachineResource extends Resource
             'create' => Pages\CreateMachine::route('/create'),
             'edit' => Pages\EditMachine::route('/{record}/edit'),
         ];
-    }    
+    }
 }

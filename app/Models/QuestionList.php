@@ -5,21 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class QuestionList extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'question',
-    ];
-
-    public function question_lists()
+    public function questions()
     {
         return $this->belongsToMany(
-            QuestionList::class,
-            'questions_question_lists',
+            Question::class,
+            'questions_machines',
+            'machine_id',
             'question_id',
-            'question_list_id',
         );
     }
 }
