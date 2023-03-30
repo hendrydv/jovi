@@ -42,13 +42,11 @@ class MachineResource extends Resource
                     ->options(function () {
                         return Kind::all()->pluck('name', 'id');
                     })
-                    ->required()
                     ->label('Kind'),
                 Forms\Components\Select::make('brand_id')
                     ->options(function () {
                         return Brand::all()->pluck('name', 'id');
                     })
-                    ->required()
                     ->label('Brand'),
             ]);
     }
@@ -57,6 +55,10 @@ class MachineResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('kind.name')
+                ->label('Kind'),
+                Tables\Columns\TextColumn::make('brand.name')
+                ->label('Brand'),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('supplier'),
                 Tables\Columns\TextColumn::make('image'),

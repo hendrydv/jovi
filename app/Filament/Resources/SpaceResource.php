@@ -37,9 +37,10 @@ class SpaceResource extends Resource
                     })
                     ->required()
                     ->label('Department'),
-                Forms\Components\Select::make('machines')
-                    ->multiple()
-                    ->relationship('machines', 'type')
+//                Forms\Components\Select::make('machines')
+//                    ->multiple()
+//                    ->preload()
+//                    ->relationship('machines', 'type')
             ]);
     }
 
@@ -65,14 +66,14 @@ class SpaceResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             RelationManagers\MachinesRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -80,5 +81,5 @@ class SpaceResource extends Resource
             'create' => Pages\CreateSpace::route('/create'),
             'edit' => Pages\EditSpace::route('/{record}/edit'),
         ];
-    }    
+    }
 }

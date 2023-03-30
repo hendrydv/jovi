@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::table('machines', function (Blueprint $table) {
-            $table->unsignedBigInteger('kind_id');
+            $table->unsignedBigInteger('kind_id')->nullable();
             $table->foreign('kind_id')->references('id')->on('kinds');
 
-            $table->unsignedBigInteger('brand_id');
+            $table->unsignedBigInteger('brand_id')->nullable();
             $table->foreign('brand_id')->references('id')->on('brands');
         });
     }
@@ -29,6 +29,9 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('machine', function (Blueprint $table) {
+            $table->dropForeign(['kind_id', 'brand_id']);
+            $table->dropCoumn(['kind_id', 'brand_id']);
+        });
     }
 };

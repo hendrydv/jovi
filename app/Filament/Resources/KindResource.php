@@ -19,7 +19,7 @@ class KindResource extends Resource
 
     protected static ?string $navigationGroup = 'Machines';
 
-    protected static ?string $navigationIcon = 'heroicon-s-library';
+    protected static ?string $navigationIcon = 'heroicon-s-template';
 
     protected static ?int $navigationSort = 6;
 
@@ -49,14 +49,14 @@ class KindResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -64,5 +64,5 @@ class KindResource extends Resource
             'create' => Pages\CreateKind::route('/create'),
             'edit' => Pages\EditKind::route('/{record}/edit'),
         ];
-    }    
+    }
 }

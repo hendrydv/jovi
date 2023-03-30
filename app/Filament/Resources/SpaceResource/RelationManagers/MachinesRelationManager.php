@@ -37,12 +37,15 @@ class MachinesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                //
+                Tables\Actions\AttachAction::make('Add machine')
+                    ->label('Add machine')
+                    ->color('primary')
+                    ->preloadRecordSelect(),
             ])
             ->actions([
                 //
             ])
             ->bulkActions([
             ]);
-    }    
+    }
 }
