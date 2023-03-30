@@ -9,6 +9,7 @@ Gebasseerd op het Back-end framework Laravel en werkt met het admin panel Filame
 ### Eerste keer
 - `Composer install` Alle composer packages installeren
 - `npm install` Alle NPM packages installeren
+- `php artisan migrate` Database installeren
 - `php artisan migrate:fresh --seed` Alle migrations opnieuw runnen en database seeden
 - `php artisan make:filament-user` Filament gebruiker aanmaken (email: admin@admin.com met wachtwoord: admin123 kan je ook gebruiken)
 - `php artisan key:generate` App key genereren
