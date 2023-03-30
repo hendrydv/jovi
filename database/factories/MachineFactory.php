@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Kind;
+use App\Models\Brand;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Machine>
@@ -20,6 +22,8 @@ class MachineFactory extends Factory
             'type' => $this->faker->word,
             'image' => $this->faker->imageUrl,
             'supplier' => $this->faker->word,
+            'kind_id' => Kind::factory(),
+            'brand_id' => Brand::factory(),
         ];
     }
 }

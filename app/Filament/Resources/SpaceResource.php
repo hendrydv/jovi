@@ -69,7 +69,7 @@ class SpaceResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\MachinesRelationManager::class,
         ];
     }
     

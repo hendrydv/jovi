@@ -9,6 +9,12 @@ class Machine extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'type',
+        'supplier',
+        'image',
+    ];
+
     public function spaces()
     {
         return $this->belongsToMany(
@@ -17,5 +23,15 @@ class Machine extends Model
             'machine_id',
             'space_id',
         );
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function kind()
+    {
+        return $this->belongsTo(Kind::class);
     }
 }

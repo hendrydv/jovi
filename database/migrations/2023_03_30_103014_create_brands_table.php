@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('machines_spaces', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('space_id');
-            $table->foreign('space_id')->references('id')->on('spaces');
-
-            $table->unsignedBigInteger('machine_id');
-            $table->foreign('machine_id')->references('id')->on('machines');
+            $table->timestamps();
+            $table->string('name');
         });
     }
 
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('machines_spaces');
+        Schema::dropIfExists('brands');
     }
 };

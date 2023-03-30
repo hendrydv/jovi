@@ -12,6 +12,8 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Models\Kind;
+use App\Models\Brand;
 
 class MachineResource extends Resource
 {
@@ -36,6 +38,18 @@ class MachineResource extends Resource
                 Forms\Components\TextInput::make('image')
                         ->required()
                         ->maxLength(255),
+                Forms\Components\Select::make('kind_id')
+                    ->options(function () {
+                        return Kind::all()->pluck('name', 'id');
+                    })
+                    ->required()
+                    ->label('Kind'),
+                Forms\Components\Select::make('brand_id')
+                    ->options(function () {
+                        return Brand::all()->pluck('name', 'id');
+                    })
+                    ->required()
+                    ->label('Brand'),
             ]);
     }
 
