@@ -4,19 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Question extends Model
+class InspectionList extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'question',
+        'name',
     ];
 
-    public function inspectionLists(): BelongsToMany
+    public function questions()
     {
-        return $this->belongsToMany(InspectionList::class)
+        return $this->belongsToMany(Question::class)
             ->using(InspectionListQuestion::class)
             ->withPivot('index');
     }

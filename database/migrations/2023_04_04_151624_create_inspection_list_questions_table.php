@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('questions_question_lists', function (Blueprint $table) {
+        Schema::create('inspection_list_question', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('question_list_id');
-            $table->foreign('machine_id')->references('id')->on('machines');
+            $table->unsignedBigInteger('inspection_list_id');
+            $table->foreign('inspection_list_id')->references('id')->on('inspection_lists');
 
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questions_question_lists');
+        Schema::dropIfExists('inspection_list_question');
     }
 };
