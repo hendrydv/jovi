@@ -18,6 +18,21 @@ class Customer extends Model
         'notes',
     ];
 
+    public const MONTHS = [
+        'january' => 'January',
+        'february' => 'February',
+        'march' => 'March',
+        'april' => 'April',
+        'may' => 'May',
+        'june' => 'June',
+        'july' => 'July',
+        'august' => 'August',
+        'september' => 'September',
+        'october' => 'October',
+        'november' => 'November',
+        'december' => 'December',
+    ];
+
     public function locations()
     {
         return $this->hasMany(Location::class);

@@ -6,6 +6,7 @@ use App\Filament\Resources\CustomerResource\Pages;
 use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -35,10 +36,11 @@ class CustomerResource extends Resource
                 Forms\Components\DatePicker::make('contract_end_date')
                     ->required(),
                 Forms\Components\Toggle::make('active')
+                    ->default(true)
                     ->required(),
-                Forms\Components\TextInput::make('preferred_month')
-                    ->required()
-                    ->maxLength(255),
+                Select::make('preferred_month')
+                    ->options(Customer::MONTHS)
+                    ->required(),
                 Forms\Components\Textarea::make('notes')
                     ->rows(10)
                     ->cols(20)
@@ -68,14 +70,14 @@ class CustomerResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             RelationManagers\LocationsRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -83,5 +85,5 @@ class CustomerResource extends Resource
             'create' => Pages\CreateCustomer::route('/create'),
             'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
-    }    
+    }
 }
