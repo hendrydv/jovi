@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Models\Kind;
 use App\Models\Brand;
+use App\Models\InspectionList;
 
 class MachineResource extends Resource
 {
@@ -48,6 +49,11 @@ class MachineResource extends Resource
                         return Brand::all()->pluck('name', 'id');
                     })
                     ->label('Brand'),
+                Forms\Components\Select::make('inspection_list_id')
+                    ->options(function () {
+                        return InspectionList::all()->pluck('name', 'id');
+                    })
+                    ->label('inspectionlist'),
             ]);
     }
 
@@ -59,6 +65,8 @@ class MachineResource extends Resource
                 ->label('Kind'),
                 Tables\Columns\TextColumn::make('brand.name')
                 ->label('Brand'),
+                Tables\Columns\TextColumn::make('inspection_list.name')
+                ->label('Inspectionlist'),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('supplier'),
                 Tables\Columns\TextColumn::make('image'),
