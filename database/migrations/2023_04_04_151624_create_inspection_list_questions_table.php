@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\InspectionList;
+use App\Models\Question;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,13 +17,8 @@ return new class extends Migration
     {
         Schema::create('inspection_list_question', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('inspection_list_id');
-            $table->foreign('inspection_list_id')->references('id')->on('inspection_lists');
-
-            $table->unsignedBigInteger('question_id');
-            $table->foreign('question_id')->references('id')->on('questions');
-
+            $table->foreignIdFor(InspectionList::class);
+            $table->foreignIdFor(Question::class);
             $table->integer('index');
         });
     }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Machine;
+use App\Models\Space;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,12 +17,8 @@ return new class extends Migration
     {
         Schema::create('machines_spaces', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('space_id');
-            $table->foreign('space_id')->references('id')->on('spaces');
-
-            $table->unsignedBigInteger('machine_id');
-            $table->foreign('machine_id')->references('id')->on('machines');
+            $table->foreignIdFor(Space::class);
+            $table->foreignIdFor(Machine::class);
         });
     }
 
