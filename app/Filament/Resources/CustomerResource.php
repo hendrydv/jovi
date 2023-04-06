@@ -41,9 +41,10 @@ class CustomerResource extends Resource
                 Select::make('preferred_month')
                     ->options(Customer::MONTHS)
                     ->required(),
-                Forms\Components\Textarea::make('notes')
-                    ->rows(10)
-                    ->cols(20)
+                Forms\Components\Section::make('Notes')
+                    ->schema([
+                        Forms\Components\RichEditor::make('notes')
+                    ]),
             ]);
     }
 

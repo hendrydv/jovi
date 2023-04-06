@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Brand;
+use App\Models\Kind;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,11 +16,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('machines', function (Blueprint $table) {
-            $table->unsignedBigInteger('kind_id')->nullable();
-            $table->foreign('kind_id')->references('id')->on('kinds');
-
-            $table->unsignedBigInteger('brand_id')->nullable();
-            $table->foreign('brand_id')->references('id')->on('brands');
+            $table->foreignIdFor(Kind::class);
+            $table->foreignIdFor(Brand::class);
         });
     }
 
