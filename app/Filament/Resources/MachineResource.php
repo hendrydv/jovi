@@ -65,7 +65,7 @@ class MachineResource extends Resource
                 ->label('Kind'),
                 Tables\Columns\TextColumn::make('brand.name')
                 ->label('Brand'),
-                Tables\Columns\TextColumn::make('inspection_list.name')
+                Tables\Columns\TextColumn::make('InspectionList.name')
                 ->label('Inspectionlist'),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('supplier'),

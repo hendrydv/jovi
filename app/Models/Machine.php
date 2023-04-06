@@ -37,6 +37,6 @@ class Machine extends Model
 
     public function inspectionList()
     {
-        return $this->belongsTo(inspectionList::class);
+        return $this->belongsTo(InspectionList::class);
     }
 }

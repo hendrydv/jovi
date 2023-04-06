@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\InspectionList;
 
 return new class extends Migration
 {
@@ -13,13 +14,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('machines', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('type');
-            $table->string('image');
-            $table->string('supplier');
-            // $table->foreignIdFor(InspectionList::class);
+        Schema::table('machines', function (Blueprint $table) {
+            $table->foreignIdFor(InspectionList::class);
+            $table->foreign('inspection_list_id')->references('id')->on('inspection_lists');
         });
     }
 
@@ -30,6 +27,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('machines');
+        Schema::table('machines', function (Blueprint $table) {
+            //
+        });
     }
 };
