@@ -34,4 +34,9 @@ class Machine extends Model
     {
         return $this->belongsTo(Kind::class);
     }
+
+    public function inspectionList()
+    {
+        return $this->belongsTo(inspectionList::class);
+    }
 }

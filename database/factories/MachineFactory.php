@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Kind;
+use App\Models\InspectionList;
 use App\Models\Brand;
 
 /**
@@ -24,6 +25,7 @@ class MachineFactory extends Factory
             'supplier' => $this->faker->word,
             'kind_id' => Kind::factory(),
             'brand_id' => Brand::factory(),
+            'inspection_list_id' => InspectionList::factory(),
         ];
     }
 }

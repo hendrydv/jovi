@@ -10,10 +10,12 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+// use Filament\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Models\Kind;
 use App\Models\Brand;
+use App\Models\InspectionList;
 
 class MachineResource extends Resource
 {
@@ -35,9 +37,8 @@ class MachineResource extends Resource
                 Forms\Components\TextInput::make('supplier')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('image')
-                        ->required()
-                        ->maxLength(255),
+                Forms\Components\FileUpload::make('image')
+                    ->image(),
                 Forms\Components\Select::make('kind_id')
                     ->options(function () {
                         return Kind::all()->pluck('name', 'id');
@@ -48,6 +49,11 @@ class MachineResource extends Resource
                         return Brand::all()->pluck('name', 'id');
                     })
                     ->label('Brand'),
+                Forms\Components\Select::make('inspection_list_id')
+                    ->options(function () {
+                        return InspectionList::all()->pluck('name', 'id');
+                    })
+                    ->label('inspectionlist'),
             ]);
     }
 
@@ -59,9 +65,11 @@ class MachineResource extends Resource
                 ->label('Kind'),
                 Tables\Columns\TextColumn::make('brand.name')
                 ->label('Brand'),
+                Tables\Columns\TextColumn::make('inspection_list.name')
+                ->label('Inspectionlist'),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('supplier'),
-                Tables\Columns\TextColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
             ])
             ->filters([
                 //
