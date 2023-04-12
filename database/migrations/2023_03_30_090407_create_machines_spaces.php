@@ -13,12 +13,12 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('machines_spaces', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Space::class)->constrained();
-            $table->foreignIdFor(Machine::class)->constrained();
+            $table->foreignIdFor(Space::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Machine::class)->constrained()->cascadeOnDelete();
         });
     }
 
@@ -27,7 +27,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('machines_spaces');
     }

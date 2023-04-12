@@ -13,12 +13,12 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('inspection_list_question', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(InspectionList::class)->constrained();
-            $table->foreignIdFor(Question::class)->constrained();
+            $table->foreignIdFor(InspectionList::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Question::class)->constrained()->cascadeOnDelete();
             $table->integer('index');
         });
     }
@@ -28,7 +28,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('inspection_list_question');
     }

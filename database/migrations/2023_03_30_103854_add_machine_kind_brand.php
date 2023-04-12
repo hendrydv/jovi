@@ -13,11 +13,11 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('machines', function (Blueprint $table) {
-            $table->foreignIdFor(Kind::class)->constrained();
-            $table->foreignIdFor(Brand::class)->constrained();
+            $table->foreignIdFor(Kind::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(Brand::class)->nullable()->constrained()->nullOnDelete();
         });
     }
 
@@ -26,11 +26,11 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('machine', function (Blueprint $table) {
             $table->dropForeign(['kind_id', 'brand_id']);
-            $table->dropCoumn(['kind_id', 'brand_id']);
+            $table->dropColumn(['kind_id', 'brand_id']);
         });
     }
 };

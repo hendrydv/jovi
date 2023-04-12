@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Machine;
+use App\Models\Question;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Customer;
@@ -17,7 +19,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             UserSeeder::class,
@@ -33,7 +35,13 @@ class DatabaseSeeder extends Seeder
                 $departments = Department::factory()->count(2)->for($location)->create();
 
                 foreach ($departments as $department) {
-                    Space::factory()->count(2)->for($department)->create();
+                    $spaces = Space::factory()->count(2)->for($department)->create();
+
+                    foreach ($spaces as $space) {
+                        $machines = Machine::inRandomOrder()->limit(3)->get();
+
+                        $space->machines()->attach($machines);
+                    }
                 }
             }
         }
