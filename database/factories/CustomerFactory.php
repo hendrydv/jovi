@@ -21,7 +21,7 @@ class CustomerFactory extends Factory
             'name' => fake()->company(),
             'contract_start_date' => fake()->dateTimeBetween('-1 year', 'now'),
             'contract_end_date' => fake()->dateTimeBetween('now', '+1 year'),
-            'active' => fake()->boolean(),
+            'is_active' => fake()->boolean(),
             'preferred_month' => fake()->randomElement(array_keys(Customer::MONTHS)),
             'notes' => fake()->paragraph(),
         ];

@@ -13,7 +13,7 @@ class Customer extends Model
         'name',
         'contract_start_date',
         'contract_end_date',
-        'active',
+        'is_active',
         'preferred_month',
         'notes',
     ];

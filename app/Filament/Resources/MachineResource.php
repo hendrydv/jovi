@@ -53,7 +53,7 @@ class MachineResource extends Resource
                     ->options(function () {
                         return InspectionList::all()->pluck('name', 'id');
                     })
-                    ->label('inspectionlist'),
+                    ->label('Inspection list'),
             ]);
     }
 
@@ -62,13 +62,18 @@ class MachineResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('kind.name')
-                ->label('Kind'),
+                    ->searchable()
+                    ->label('Kind'),
                 Tables\Columns\TextColumn::make('brand.name')
-                ->label('Brand'),
+                    ->searchable()
+                    ->label('Brand'),
                 Tables\Columns\TextColumn::make('InspectionList.name')
-                ->label('Inspectionlist'),
-                Tables\Columns\TextColumn::make('type'),
-                Tables\Columns\TextColumn::make('supplier'),
+                    ->searchable()
+                    ->label('Inspection list'),
+                Tables\Columns\TextColumn::make('type')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('supplier')
+                    ->searchable(),
                 Tables\Columns\ImageColumn::make('image')
             ])
             ->filters([

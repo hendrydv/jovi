@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->date('contract_start_date');
             $table->date('contract_end_date');
-            $table->boolean('active');
+            $table->boolean('is_active');
             $table->enum('preferred_month', array_keys(Customer::MONTHS));
             $table->text('notes')->nullable();
         });

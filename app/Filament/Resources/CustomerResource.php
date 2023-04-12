@@ -5,12 +5,14 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CustomerResource\Pages;
 use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
+use Exception;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -35,7 +37,7 @@ class CustomerResource extends Resource
                     ->required(),
                 Forms\Components\DatePicker::make('contract_end_date')
                     ->required(),
-                Forms\Components\Toggle::make('active')
+                Forms\Components\Toggle::make('is_active')
                     ->default(true)
                     ->required(),
                 Select::make('preferred_month')
@@ -48,6 +50,9 @@ class CustomerResource extends Resource
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -57,12 +62,16 @@ class CustomerResource extends Resource
                     ->date(),
                 Tables\Columns\TextColumn::make('contract_end_date')
                     ->date(),
-                Tables\Columns\IconColumn::make('active')
+                Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('preferred_month'),
             ])
             ->filters([
-                //
+//                Filter::make('active')
+//                    ->query(fn (Builder $query): Builder => $query->where('active', true))
+//                    ->toggle(),
+                Tables\Filters\TernaryFilter::make('is_active'),
+                Tables\Filters\SelectFilter::make('preferred_month')->options(Customer::MONTHS),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
