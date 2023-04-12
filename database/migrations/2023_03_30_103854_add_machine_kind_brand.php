@@ -16,8 +16,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('machines', function (Blueprint $table) {
-            $table->foreignIdFor(Kind::class);
-            $table->foreignIdFor(Brand::class);
+            $table->foreignIdFor(Kind::class)->constrained();
+            $table->foreignIdFor(Brand::class)->constrained();
         });
     }
 

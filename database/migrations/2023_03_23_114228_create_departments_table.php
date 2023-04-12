@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->foreignIdFor(Location::class);
+            $table->foreignIdFor(Location::class)->nullable()->constrained()->nullOnDelete();
         });
     }
 

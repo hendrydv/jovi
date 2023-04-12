@@ -15,8 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('machines', function (Blueprint $table) {
-            $table->foreignIdFor(InspectionList::class);
-            $table->foreign('inspection_list_id')->references('id')->on('inspection_lists');
+            $table->foreignIdFor(InspectionList::class)->constrained();
         });
     }
 

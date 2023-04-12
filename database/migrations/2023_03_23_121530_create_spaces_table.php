@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->foreignIdFor(Department::class);
+            $table->foreignIdFor(Department::class)->nullable()->constrained()->nullOnDelete();
         });
     }
 

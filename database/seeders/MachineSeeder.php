@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Question;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Machine;
@@ -15,6 +16,10 @@ class MachineSeeder extends Seeder
      */
     public function run()
     {
-        Machine::factory()->count(10)->create();
+        $machines = Machine::factory()->count(10)->create();
+
+        foreach ($machines as $machine) {
+            $machine->inspectionList()->first()->questions()->attach(Question::factory()->count(10)->create());
+        }
     }
 }

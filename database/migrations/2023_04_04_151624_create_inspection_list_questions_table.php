@@ -17,8 +17,8 @@ return new class extends Migration
     {
         Schema::create('inspection_list_question', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(InspectionList::class);
-            $table->foreignIdFor(Question::class);
+            $table->foreignIdFor(InspectionList::class)->constrained();
+            $table->foreignIdFor(Question::class)->constrained();
             $table->integer('index');
         });
     }

@@ -17,8 +17,8 @@ return new class extends Migration
     {
         Schema::create('machines_spaces', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Space::class);
-            $table->foreignIdFor(Machine::class);
+            $table->foreignIdFor(Space::class)->constrained();
+            $table->foreignIdFor(Machine::class)->constrained();
         });
     }
 

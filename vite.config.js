@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/images/jovi.png',
                 'resources/images/jovi_background.jpg',
+                'resources/images/jovi_favicon.png',
             ],
             refresh: true,
         }),

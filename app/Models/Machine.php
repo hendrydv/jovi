@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Machine extends Model
 {
@@ -15,7 +17,7 @@ class Machine extends Model
         'image',
     ];
 
-    public function spaces()
+    public function spaces(): BelongsToMany
     {
         return $this->belongsToMany(
             Space::class,
@@ -25,17 +27,17 @@ class Machine extends Model
         );
     }
 
-    public function brand()
+    public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);
     }
 
-    public function kind()
+    public function kind(): BelongsTo
     {
         return $this->belongsTo(Kind::class);
     }
 
-    public function inspectionList()
+    public function inspectionList(): BelongsTo
     {
         return $this->belongsTo(InspectionList::class);
     }

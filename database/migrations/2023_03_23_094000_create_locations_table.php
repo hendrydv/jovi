@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignIdFor(Customer::class);
+            $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
             $table->string('street');
             $table->string('house_number');
             $table->string('zip_code');
