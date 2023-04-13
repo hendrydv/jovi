@@ -28,4 +28,16 @@ class Space extends Model
             'machine_id',
         );
     }
+
+    public function location()
+    {
+        return $this->hasOneThrough(
+            Location::class,
+            Department::class,
+            'id',
+            'id',
+            'department_id',
+            'location_id'
+        );
+    }
 }

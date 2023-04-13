@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LocationResource\Pages;
 use App\Filament\Resources\LocationResource\RelationManagers;
 use App\Models\Location;
+use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -44,24 +45,42 @@ class LocationResource extends Resource
                     ->options(function () {
                         return Customer::all()->pluck('name', 'id');
                     })
-                    ->required()
                     ->label('Customer'),
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('street')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('house_number')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('zip_code')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('city')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('customer.name')
+                    ->sortable()
                     ->label('Customer'),
-                Tables\Columns\TextColumn::make('street'),
-                Tables\Columns\TextColumn::make('house_number'),
-                Tables\Columns\TextColumn::make('zip_code'),
-                Tables\Columns\TextColumn::make('city'),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('customer_id')
+                    ->options(function () {
+                        return Customer::all()->pluck('name', 'id');
+                    })
+                    ->label('Customer'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -70,14 +89,14 @@ class LocationResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             RelationManagers\DepartmentsRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -85,5 +104,5 @@ class LocationResource extends Resource
             'create' => Pages\CreateLocation::route('/create'),
             'edit' => Pages\EditLocation::route('/{record}/edit'),
         ];
-    }    
+    }
 }

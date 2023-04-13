@@ -3,16 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MachineResource\Pages;
-use App\Filament\Resources\MachineResource\RelationManagers;
 use App\Models\Machine;
+use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-// use Filament\FileUpload;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Models\Kind;
 use App\Models\Brand;
 use App\Models\InspectionList;
@@ -57,27 +54,43 @@ class MachineResource extends Resource
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('kind.name')
                     ->searchable()
+                    ->sortable()
                     ->label('Kind'),
                 Tables\Columns\TextColumn::make('brand.name')
                     ->searchable()
+                    ->sortable()
                     ->label('Brand'),
-                Tables\Columns\TextColumn::make('InspectionList.name')
-                    ->searchable()
-                    ->label('Inspection list'),
                 Tables\Columns\TextColumn::make('type')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('supplier')
+                    ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('InspectionList.name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Inspection list'),
                 Tables\Columns\ImageColumn::make('image')
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('kind')
+                    ->relationship('kind', 'name'),
+                Tables\Filters\SelectFilter::make('brand')
+                    ->relationship('brand', 'name'),
+                Tables\Filters\SelectFilter::make('inspectionList')
+                    ->relationship('inspectionList', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

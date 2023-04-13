@@ -4,14 +4,14 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\DepartmentResource\Pages;
 use App\Filament\Resources\DepartmentResource\RelationManagers;
+use App\Models\Customer;
 use App\Models\Department;
+use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Models\Location;
 
 class DepartmentResource extends Resource
@@ -33,25 +33,46 @@ class DepartmentResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('location_id')
                     ->options(function () {
-                        return Location::all()->pluck('street', 'id');
+                        return Location::all()->mapWithKeys(function ($location) {
+                            return [$location->id => "$location->street $location->house_number, $location->zip_code $location->city"];
+                        });
                     })
-                    ->required()
                     ->label('Location'),
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('location.customer.name')
+                    ->sortable()
                     ->label('Customer'),
-                Tables\Columns\TextColumn::make('location.street')
-                    ->label('Location'),
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('location')
+                    ->getStateUsing( function (Department $record){
+                        return $record->location->fullAddress() ?? "";
+                    }),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('customer')
+                    ->relationship('customer', 'name'),
+                Tables\Filters\SelectFilter::make('location')
+                    ->options(function () {
+                        return Location::all()->mapWithKeys(function ($location) {
+                            return [$location->id => "{$location->customer->name} - {$location->fullAddress()}"];
+                        });
+                    })
+                    ->multiple()
+                    ->attribute('location_id'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -60,14 +81,14 @@ class DepartmentResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             RelationManagers\SpacesRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -75,5 +96,5 @@ class DepartmentResource extends Resource
             'create' => Pages\CreateDepartment::route('/create'),
             'edit' => Pages\EditDepartment::route('/{record}/edit'),
         ];
-    }    
+    }
 }

@@ -2,12 +2,16 @@
 
 namespace App\Filament\Resources\SpaceResource\RelationManagers;
 
+use App\Models\Machine;
+use App\Models\Space;
 use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Collection;
+use function route;
 
 class MachinesRelationManager extends RelationManager
 {
@@ -32,11 +36,28 @@ class MachinesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('supplier'),
-                Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('id')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('kind.name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('brand.name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('supplier')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\ImageColumn::make('image'),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('kind')
+                    ->relationship('kind', 'name'),
+                Tables\Filters\SelectFilter::make('brand')
+                    ->relationship('brand', 'name'),
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make('Add machine')
@@ -45,9 +66,14 @@ class MachinesRelationManager extends RelationManager
                     ->preloadRecordSelect(),
             ])
             ->actions([
-                Tables\Actions\DetachAction::make('Remove machine')
+                Tables\Actions\Action::make('open')
+                    ->label('Open')
+                    ->icon('heroicon-s-external-link')
+                    ->url(fn (Machine $record): string => route('filament.resources.machines.edit', $record)),
+                Tables\Actions\DetachAction::make()
             ])
             ->bulkActions([
+                Tables\Actions\DetachBulkAction::make()
             ]);
     }
 }

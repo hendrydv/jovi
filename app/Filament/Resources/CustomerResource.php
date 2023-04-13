@@ -55,21 +55,59 @@ class CustomerResource extends Resource
      */
     public static function table(Table $table): Table
     {
+        $contractPeriods = ['start', 'end'];
+
+        $contractForms = [];
+
+        foreach ($contractPeriods as $contractPeriod) {
+            $contractForms[] = Filter::make("contract_{$contractPeriod}_date")
+                ->form([
+                    Forms\Components\DatePicker::make("contract_{$contractPeriod}_from"),
+                    Forms\Components\DatePicker::make("contract_{$contractPeriod}_until"),
+                ])
+                ->query(function (Builder $query, array $data) use ($contractPeriod): Builder {
+                    return $query
+                        ->when(
+                            $data["contract_{$contractPeriod}_from"],
+                            fn (Builder $query, $date): Builder => $query->whereDate(
+                                "contract_{$contractPeriod}_date",
+                                '>=',
+                                $date
+                            ),
+                        )
+                        ->when(
+                            $data["contract_{$contractPeriod}_until"],
+                            fn (Builder $query, $date): Builder => $query->whereDate(
+                                "contract_{$contractPeriod}_date",
+                                '<=',
+                                $date
+                            ),
+                        );
+                });
+        }
+
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('id')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('contract_start_date')
+                    ->sortable()
                     ->date(),
                 Tables\Columns\TextColumn::make('contract_end_date')
+                    ->sortable()
                     ->date(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->sortable()
                     ->boolean(),
-                Tables\Columns\TextColumn::make('preferred_month'),
+                Tables\Columns\TextColumn::make('preferred_month')
+                    ->sortable(),
             ])
             ->filters([
-//                Filter::make('active')
-//                    ->query(fn (Builder $query): Builder => $query->where('active', true))
-//                    ->toggle(),
+                ...$contractForms,
                 Tables\Filters\TernaryFilter::make('is_active'),
                 Tables\Filters\SelectFilter::make('preferred_month')->options(Customer::MONTHS),
             ])

@@ -4,7 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SpaceResource\Pages;
 use App\Filament\Resources\SpaceResource\RelationManagers;
+use App\Models\Customer;
+use App\Models\Location;
 use App\Models\Space;
+use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -35,29 +38,37 @@ class SpaceResource extends Resource
                     ->options(function () {
                         return Department::all()->pluck('name', 'id');
                     })
-                    ->required()
                     ->label('Department'),
-//                Forms\Components\Select::make('machines')
-//                    ->multiple()
-//                    ->preload()
-//                    ->relationship('machines', 'type')
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('department.location.customer.name')
+                    ->sortable()
                     ->label('Customer'),
-                Tables\Columns\TextColumn::make('department.location.street')
-                    ->label('Location'),
+                Tables\Columns\TextColumn::make('location')
+                    ->getStateUsing( function (Space $record){
+                        return $record->department?->location?->fullAddress() ?? "";
+                    }),
                 Tables\Columns\TextColumn::make('department.name')
+                    ->sortable()
                     ->label('Department'),
-                Tables\Columns\TextColumn::make('name'),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('department')
+                    ->relationship('department', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
