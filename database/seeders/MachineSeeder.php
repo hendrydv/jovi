@@ -17,9 +17,5 @@ class MachineSeeder extends Seeder
     public function run()
     {
         $machines = Machine::factory()->count(10)->create();
-
-        foreach ($machines as $machine) {
-            $machine->inspectionList()->first()->questions()->attach(Question::factory()->count(10)->create());
-        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\InspectionResource\Pages;
+use App\Filament\Resources\InspectionResource\RelationManagers\InspectionResultsRelationManager;
 use App\Models\Inspection;
 use App\Models\Machine;
 use App\Models\Space;
@@ -18,7 +19,11 @@ class InspectionResource extends Resource
 {
     protected static ?string $model = Inspection::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'Inspections';
+
+    protected static ?string $navigationIcon = 'heroicon-s-clipboard-check';
+
+    protected static ?int $navigationSort = 9;
 
     public static function form(Form $form): Form
     {
@@ -60,13 +65,15 @@ class InspectionResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('machine')
-                    ->getStateUsing( function (Inspection $record){
+                    ->getStateUsing( function (Inspection $record) {
                         return $record->machine->fullMachineName() ?? "";
                     }),
                 Tables\Columns\TextColumn::make('user.name')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('user')
@@ -89,7 +96,7 @@ class InspectionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            InspectionResultsRelationManager::class,
         ];
     }
 

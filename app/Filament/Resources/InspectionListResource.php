@@ -21,7 +21,7 @@ class InspectionListResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-clipboard-list';
 
-    protected static ?int $navigationSort = 9;
+    protected static ?int $navigationSort = 10;
 
     public static function form(Form $form): Form
     {
@@ -49,14 +49,14 @@ class InspectionListResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             RelationManagers\QuestionsRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -64,5 +64,5 @@ class InspectionListResource extends Resource
             'create' => Pages\CreateInspectionList::route('/create'),
             'edit' => Pages\EditInspectionList::route('/{record}/edit'),
         ];
-    }    
+    }
 }

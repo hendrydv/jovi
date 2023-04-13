@@ -20,4 +20,9 @@ class Question extends Model
             ->using(InspectionListQuestion::class)
             ->withPivot('index');
     }
+
+    public function inspectionResults()
+    {
+        return $this->hasMany(InspectionResult::class);
+    }
 }
