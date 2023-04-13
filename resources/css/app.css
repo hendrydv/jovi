@@ -1,8 +1,9 @@
 @import '../../vendor/filament/filament/resources/css/app.css';
+@import '../../vendor/saade/filament-fullcalendar/resources/css/filament-fullcalendar.css';
 
 .filament-login-page {
     background-image: linear-gradient(
-        rgba(255, 255, 255, 0.5), 
+        rgba(255, 255, 255, 0.5),
         rgba(255, 255, 255, 0.5)
       ), url("../images/jovi_background.jpg");
 }

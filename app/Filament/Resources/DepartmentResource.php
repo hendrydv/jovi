@@ -34,7 +34,7 @@ class DepartmentResource extends Resource
                 Forms\Components\Select::make('location_id')
                     ->options(function () {
                         return Location::all()->mapWithKeys(function ($location) {
-                            return [$location->id => "$location->street $location->house_number, $location->zip_code $location->city"];
+                            return [$location->id => $location->fullAddress()];
                         });
                     })
                     ->label('Location'),

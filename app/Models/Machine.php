@@ -41,4 +41,9 @@ class Machine extends Model
     {
         return $this->belongsTo(InspectionList::class);
     }
+
+    public function fullMachineName(): string
+    {
+        return "{$this->kind->name} {$this->brand->name} - $this->type";
+    }
 }

@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Space extends Model
 {
@@ -14,12 +17,12 @@ class Space extends Model
         'department_id',
     ];
 
-    public function department()
+    public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
     }
 
-    public function machines()
+    public function machines(): BelongsToMany
     {
         return $this->belongsToMany(
             Machine::class,
@@ -29,7 +32,7 @@ class Space extends Model
         );
     }
 
-    public function location()
+    public function location(): HasOneThrough
     {
         return $this->hasOneThrough(
             Location::class,
@@ -39,5 +42,10 @@ class Space extends Model
             'department_id',
             'location_id'
         );
+    }
+
+    public function fullSpaceName(): string
+    {
+        return "{$this->department?->location?->customer?->name} {$this->department?->location?->name} {$this->department?->name} {$this->name}";
     }
 }

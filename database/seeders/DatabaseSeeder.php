@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Inspection;
 use App\Models\Machine;
 use App\Models\Question;
+use Database\Factories\InspectionFactory;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Customer;
@@ -52,5 +54,10 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin123'),
             'is_admin' => true,
         ]);
+
+        foreach (Machine::all() as $machine) {
+            $user = User::all()->random();
+            Inspection::factory()->for($machine->spaces()->first())->for($machine)->for($user)->create();
+        }
     }
 }
