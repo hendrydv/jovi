@@ -1,12 +1,11 @@
-image: composer:2.0
-
+image: php:8.2.0
 
 pipelines:
   default:
     - step:
         script:
+          - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
-          -  ./vendor/bin/phpunit test
           - git ftp init --user $FTP_USERNAME --passwd $FTP_PASSWORD $FTP_HOST_PATH
         caches:
           - composer
