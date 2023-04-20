@@ -31,28 +31,28 @@ class CustomerResource extends BaseResource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Naam')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('contract_start_date')
-                    ->label('Contract start datum')
+                    ->translateLabel()
                     ->required(),
                 Forms\Components\DatePicker::make('contract_end_date')
-                    ->label('Contract eind datum')
+                    ->translateLabel()
                     ->required(),
                 Forms\Components\Toggle::make('is_active')
-                    ->label('Actief')
+                    ->translateLabel()
                     ->default(true)
                     ->required(),
                 Select::make('preferred_month')
-                    ->label('Voorkeur maand')
+                    ->translateLabel()
                     ->options(Customer::MONTHS)
                     ->required(),
                 Forms\Components\Section::make('Notes')
-                    ->label('Notities')
+                    ->translateLabel()
                     ->schema([
                         Forms\Components\RichEditor::make('notes')
-                            ->label('Notities')
+                            ->translateLabel()
                     ]),
             ]);
     }

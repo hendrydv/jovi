@@ -49,7 +49,7 @@ class DepartmentsRelationManager extends BaseRelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('open')
-                    ->label('Open')
+                    ->translateLabel()
                     ->icon('heroicon-s-external-link')
                     ->url(function (Department $record): string {
                         $slug = static::getPluralModelLabel();

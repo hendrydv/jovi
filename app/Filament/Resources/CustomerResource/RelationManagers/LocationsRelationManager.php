@@ -20,19 +20,19 @@ class LocationsRelationManager extends BaseRelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('street')
-                    ->label('Straat')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('house_number')
-                    ->label('Huisnummer')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('zip_code')
-                    ->label('Postcode')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('city')
-                    ->label('Plaats')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
             ]);

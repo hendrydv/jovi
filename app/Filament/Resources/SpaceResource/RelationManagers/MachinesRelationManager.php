@@ -74,7 +74,7 @@ class MachinesRelationManager extends BaseRelationManager
             ])
             ->actions([
                 Tables\Actions\Action::make('open')
-                    ->label('Open')
+                    ->translateLabel()
                     ->icon('heroicon-s-external-link')
                     ->url(function (Machine $record): string {
                         $slug = static::getPluralModelLabel();

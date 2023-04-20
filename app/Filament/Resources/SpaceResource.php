@@ -63,8 +63,7 @@ class SpaceResource extends BaseResource
                     }),
                 Tables\Columns\TextColumn::make('department.name')
                     ->translateLabel()
-                    ->sortable()
-                    ->label('Department'),
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('department')
