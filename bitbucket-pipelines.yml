@@ -1,0 +1,12 @@
+image: composer:2.0
+
+
+pipelines:
+  default:
+    - step:
+        script:
+          - composer install
+          -  ./vendor/bin/phpunit test
+          - git ftp init --user $FTP_USERNAME --passwd $FTP_PASSWORD $FTP_HOST_PATH
+        caches:
+          - composer
