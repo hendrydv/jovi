@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\BaseResource;
 use App\Filament\Resources\DepartmentResource\Pages;
 use App\Filament\Resources\DepartmentResource\RelationManagers;
 use App\Models\Customer;
@@ -14,7 +15,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use App\Models\Location;
 
-class DepartmentResource extends Resource
+class DepartmentResource extends BaseResource
 {
     protected static ?string $model = Department::class;
 
@@ -29,15 +30,16 @@ class DepartmentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('location_id')
+                    ->translateLabel()
                     ->options(function () {
                         return Location::all()->mapWithKeys(function ($location) {
                             return [$location->id => $location->fullAddress()];
                         });
-                    })
-                    ->label('Location'),
+                    }),
             ]);
     }
 
@@ -52,23 +54,31 @@ class DepartmentResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('location.customer.name')
-                    ->sortable()
-                    ->label('Customer'),
+                    ->translateLabel()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('location')
+                    ->translateLabel()
                     ->getStateUsing( function (Department $record){
-                        return $record->location->fullAddress() ?? "";
+                        return $record->location?->fullAddress() ?? "";
                     }),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('customer')
+                    ->translateLabel()
                     ->relationship('customer', 'name'),
                 Tables\Filters\SelectFilter::make('location')
+                    ->translateLabel()
                     ->options(function () {
                         return Location::all()->mapWithKeys(function ($location) {
-                            return [$location->id => "{$location->customer->name} - {$location->fullAddress()}"];
+                            $customer = $location->customer?->name;
+                            if (!$customer) {
+                                return [];
+                            }
+                            return [$location->id => "$customer - {$location->fullAddress()}"];
                         });
                     })
                     ->multiple()
@@ -92,8 +102,8 @@ class DepartmentResource extends Resource
     {
         return [
             'index' => Pages\ListDepartments::route('/'),
-            'create' => Pages\CreateDepartment::route('/create'),
-            'edit' => Pages\EditDepartment::route('/{record}/edit'),
+            'create' => Pages\CreateDepartment::route('/aanmaken'),
+            'edit' => Pages\EditDepartment::route('/{record}/bewerken'),
         ];
     }
 }

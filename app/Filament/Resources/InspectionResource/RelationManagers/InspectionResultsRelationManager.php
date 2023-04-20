@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class InspectionResultsRelationManager extends RelationManager
 {
     protected static string $relationship = 'inspectionResults';
+    protected static ?string $pluralModelLabel = 'inspectie resultaten';
 
     protected static ?string $recordTitleAttribute = 'question';
 

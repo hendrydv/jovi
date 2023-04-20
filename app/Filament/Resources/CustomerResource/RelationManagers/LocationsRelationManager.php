@@ -2,33 +2,37 @@
 
 namespace App\Filament\Resources\CustomerResource\RelationManagers;
 
+use App\Filament\BaseRelationManager;
 use App\Models\Location;
 use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Collection;
 
-class LocationsRelationManager extends RelationManager
+class LocationsRelationManager extends BaseRelationManager
 {
-    protected static string $relationship = 'locations';
+    public static ?string $model = Location::class;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('street')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('house_number')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('zip_code')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('city')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
             ]);
@@ -45,15 +49,19 @@ class LocationsRelationManager extends RelationManager
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('street')
+                    ->translateLabel()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('house_number')
+                    ->translateLabel()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('zip_code')
+                    ->translateLabel()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('city')
+                    ->translateLabel()
                     ->sortable()
                     ->searchable(),
             ])
@@ -63,26 +71,21 @@ class LocationsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('open')
-                    ->label('Open')
                     ->icon('heroicon-s-external-link')
-                    ->url(fn (Location $record): string => route('filament.resources.locations.edit', $record)),
-                Tables\Actions\Action::make('detach')
-                    ->label('Detach')
-                    ->icon('heroicon-s-x')
-                    ->action(fn (Location $record) => $record->customer()->dissociate()->save()),
+                    ->url(function (Location $record): string {
+                        $slug = static::getPluralModelLabel();
+                        return route("filament.resources.$slug.edit", $record);
+                    }),
+                Tables\Actions\DetachAction::make()
+                    ->action(fn (Location $record) => $record->customer()->dissociate()->save())
+                    ->icon('heroicon-s-x'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('detach')
-                    ->label('Detach selected')
+                Tables\Actions\DetachBulkAction::make()
                     ->icon('heroicon-s-x')
                     ->action(fn (Collection $records) => $records->each(
                         fn (Location $record) => $record->customer()->dissociate()->save()
                     )),
             ]);
-    }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return ['street', 'house_number', 'zip_code', 'city'];
     }
 }

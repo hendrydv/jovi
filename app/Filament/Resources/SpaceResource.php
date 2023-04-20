@@ -2,22 +2,18 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\BaseResource;
 use App\Filament\Resources\SpaceResource\Pages;
 use App\Filament\Resources\SpaceResource\RelationManagers;
-use App\Models\Customer;
-use App\Models\Location;
 use App\Models\Space;
 use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Models\Department;
 
-class SpaceResource extends Resource
+class SpaceResource extends BaseResource
 {
     protected static ?string $model = Space::class;
 
@@ -32,13 +28,14 @@ class SpaceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('department_id')
+                    ->translateLabel()
                     ->options(function () {
                         return Department::all()->pluck('name', 'id');
-                    })
-                    ->label('Department'),
+                    }),
             ]);
     }
 
@@ -53,21 +50,24 @@ class SpaceResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('department.location.customer.name')
-                    ->sortable()
-                    ->label('Customer'),
+                    ->translateLabel()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('location')
+                    ->translateLabel()
                     ->getStateUsing( function (Space $record){
                         return $record->department?->location?->fullAddress() ?? "";
                     }),
                 Tables\Columns\TextColumn::make('department.name')
-                    ->sortable()
-                    ->label('Department'),
+                    ->translateLabel()
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('department')
+                    ->translateLabel()
                     ->relationship('department', 'name'),
             ])
             ->actions([
@@ -88,8 +88,8 @@ class SpaceResource extends Resource
     {
         return [
             'index' => Pages\ListSpaces::route('/'),
-            'create' => Pages\CreateSpace::route('/create'),
-            'edit' => Pages\EditSpace::route('/{record}/edit'),
+            'create' => Pages\CreateSpace::route('/aanmaken'),
+            'edit' => Pages\EditSpace::route('/{record}/bewerken'),
         ];
     }
 }

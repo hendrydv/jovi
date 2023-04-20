@@ -2,17 +2,17 @@
 
 namespace App\Filament\Resources\InspectionListResource\RelationManagers;
 
+use App\Filament\BaseRelationManager;
+use App\Models\Question;
+use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class QuestionsRelationManager extends RelationManager
+class QuestionsRelationManager extends BaseRelationManager
 {
-    protected static string $relationship = 'questions';
+    protected static ?string $model = Question::class;
 
     protected static ?string $recordTitleAttribute = 'question';
 
@@ -21,26 +21,33 @@ class QuestionsRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('question')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
             ->reorderable('index')
             ->defaultSort('index')
             ->columns([
-                Tables\Columns\TextColumn::make('index'),
-                Tables\Columns\TextColumn::make('question')->searchable(),
+                Tables\Columns\TextColumn::make('index')
+                    ->translateLabel(),
+                Tables\Columns\TextColumn::make('question')
+                    ->translateLabel()
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make('Add question')
-                    ->label('Add question')
+                Tables\Actions\AttachAction::make()
+                    ->translateLabel()
                     ->color('primary')
                     ->preloadRecordSelect(),
             ])

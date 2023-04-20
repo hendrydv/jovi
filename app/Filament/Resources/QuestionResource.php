@@ -2,18 +2,16 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\BaseResource;
 use App\Filament\Resources\QuestionResource\Pages;
-use App\Filament\Resources\QuestionResource\RelationManagers;
 use App\Models\Question;
+use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class QuestionResource extends Resource
+class QuestionResource extends BaseResource
 {
     protected static ?string $model = Question::class;
 
@@ -28,16 +26,21 @@ class QuestionResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('question')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('question'),
+                Tables\Columns\TextColumn::make('question')
+                    ->translateLabel(),
             ])
             ->filters([
                 //
@@ -60,8 +63,8 @@ class QuestionResource extends Resource
     {
         return [
             'index' => Pages\ListQuestions::route('/'),
-            'create' => Pages\CreateQuestion::route('/create'),
-            'edit' => Pages\EditQuestion::route('/{record}/edit'),
+            'create' => Pages\CreateQuestion::route('/aanmaken'),
+            'edit' => Pages\EditQuestion::route('/{record}/bewerken'),
         ];
     }
 }
