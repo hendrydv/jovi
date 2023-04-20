@@ -1,14 +1,20 @@
 image: php:8.2.0
 
 pipelines:
-  default:
-    - step:
-        script:
-          - apt-get update && apt-get install -y unzip git rsync zip libzip-dev
-          - docker-php-ext-install zip
-          - docker-php-ext-enable zip
-          - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-          - composer install
-          - git ftp init --user $FTP_USERNAME --passwd $FTP_PASSWORD $FTP_HOST_PATH
-        caches:
-          - composer
+  branches:
+    master:
+      - step:
+          caches:
+            - composer
+          script:
+            - apt-get update && apt-get install -y unzip git rsync zip libzip-dev
+            - docker-php-ext-install zip
+            - docker-php-ext-enable zip
+            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+            - composer install
+            - pipe: atlassian/ftp-deploy:0.3.1
+              variables:
+                USER: 'jovi@hendrydevries.nl'
+                PASSWORD: 'admin123'
+                SERVER: 'web0149.zxcs.nl'
+                REMOTE_PATH: '/'
