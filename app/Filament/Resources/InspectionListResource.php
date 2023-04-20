@@ -2,18 +2,16 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\BaseResource;
 use App\Filament\Resources\InspectionListResource\Pages;
 use App\Filament\Resources\InspectionListResource\RelationManagers;
 use App\Models\InspectionList;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class InspectionListResource extends Resource
+class InspectionListResource extends BaseResource
 {
     protected static ?string $model = InspectionList::class;
 
@@ -28,6 +26,7 @@ class InspectionListResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
             ]);
@@ -37,7 +36,10 @@ class InspectionListResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
@@ -60,8 +62,8 @@ class InspectionListResource extends Resource
     {
         return [
             'index' => Pages\ListInspectionLists::route('/'),
-            'create' => Pages\CreateInspectionList::route('/create'),
-            'edit' => Pages\EditInspectionList::route('/{record}/edit'),
+            'create' => Pages\CreateInspectionList::route('/aanmaken'),
+            'edit' => Pages\EditInspectionList::route('/{record}/bewerken'),
         ];
     }
 }

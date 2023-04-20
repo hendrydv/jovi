@@ -2,28 +2,26 @@
 
 namespace App\Filament\Resources\DepartmentResource\RelationManagers;
 
-use App\Models\Department;
+use App\Filament\BaseRelationManager;
 use App\Models\Space;
 use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Collection;
 use function route;
 
-class SpacesRelationManager extends RelationManager
+class SpacesRelationManager extends BaseRelationManager
 {
-    protected static string $relationship = 'spaces';
-
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $model = Space::class;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
             ]);
@@ -40,6 +38,7 @@ class SpacesRelationManager extends RelationManager
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
                     ->sortable()
                     ->searchable(),
             ])
@@ -49,17 +48,18 @@ class SpacesRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('open')
-                    ->label('Open')
+                    ->translateLabel()
                     ->icon('heroicon-s-external-link')
-                    ->url(fn (Space $record): string => route('filament.resources.spaces.edit', $record)),
-                Tables\Actions\Action::make('detach')
-                    ->label('Detach')
+                    ->url(function (Space $record): string {
+                        $slug = static::getPluralModelLabel();
+                        return route("filament.resources.$slug.edit", $record);
+                    }),
+                Tables\Actions\DetachAction::make()
                     ->icon('heroicon-s-x')
                     ->action(fn (Space $record) => $record->department()->dissociate()->save()),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('detach')
-                    ->label('Detach selected')
+                Tables\Actions\DetachBulkAction::make()
                     ->icon('heroicon-s-x')
                     ->action(fn (Collection $records) => $records->each(
                         fn (Space $record) => $record->department()->dissociate()->save()

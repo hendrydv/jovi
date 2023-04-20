@@ -2,16 +2,16 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\BaseResource;
 use App\Filament\Resources\KindResource\Pages;
 use App\Models\Kind;
 use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 
-class KindResource extends Resource
+class KindResource extends BaseResource
 {
     protected static ?string $model = Kind::class;
 
@@ -26,6 +26,7 @@ class KindResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
             ]);
@@ -42,6 +43,7 @@ class KindResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
                     ->sortable()
                     ->searchable(),
             ])
@@ -56,8 +58,8 @@ class KindResource extends Resource
     {
         return [
             'index' => Pages\ListKinds::route('/'),
-            'create' => Pages\CreateKind::route('/create'),
-            'edit' => Pages\EditKind::route('/{record}/edit'),
+            'create' => Pages\CreateKind::route('/aanmaken'),
+            'edit' => Pages\EditKind::route('/{record}/bewerken'),
         ];
     }
 }

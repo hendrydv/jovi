@@ -2,27 +2,27 @@
 
 namespace App\Filament\Resources\LocationResource\RelationManagers;
 
+use App\Filament\BaseRelationManager;
 use App\Models\Department;
+use App\Models\Location;
 use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Collection;
 use function route;
 
-class DepartmentsRelationManager extends RelationManager
+class DepartmentsRelationManager extends BaseRelationManager
 {
-    protected static string $relationship = 'departments';
-
-    protected static ?string $recordTitleAttribute = 'name';
+    public static ?string $model = Department::class;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
             ]);
@@ -39,6 +39,7 @@ class DepartmentsRelationManager extends RelationManager
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
                     ->sortable()
                     ->searchable(),
             ])
@@ -50,15 +51,16 @@ class DepartmentsRelationManager extends RelationManager
                 Tables\Actions\Action::make('open')
                     ->label('Open')
                     ->icon('heroicon-s-external-link')
-                    ->url(fn (Department $record): string => route('filament.resources.departments.edit', $record)),
-                Tables\Actions\Action::make('detach')
-                    ->label('Detach')
+                    ->url(function (Department $record): string {
+                        $slug = static::getPluralModelLabel();
+                        return route("filament.resources.$slug.edit", $record);
+                    }),
+                Tables\Actions\DetachAction::make()
                     ->icon('heroicon-s-x')
                     ->action(fn (Department $record) => $record->location()->dissociate()->save()),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('detach')
-                    ->label('Detach selected')
+                Tables\Actions\DetachBulkAction::make()
                     ->icon('heroicon-s-x')
                     ->action(fn (Collection $records) => $records->each(
                         fn (Department $record) => $record->location()->dissociate()->save()

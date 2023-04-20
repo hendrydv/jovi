@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\BaseResource;
 use App\Filament\Resources\MachineResource\Pages;
 use App\Models\Machine;
 use Exception;
@@ -14,7 +15,7 @@ use App\Models\Kind;
 use App\Models\Brand;
 use App\Models\InspectionList;
 
-class MachineResource extends Resource
+class MachineResource extends BaseResource
 {
     protected static ?string $model = Machine::class;
 
@@ -29,28 +30,31 @@ class MachineResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('type')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('supplier')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
+                    ->translateLabel()
                     ->image(),
                 Forms\Components\Select::make('kind_id')
+                    ->translateLabel()
                     ->options(function () {
                         return Kind::all()->pluck('name', 'id');
-                    })
-                    ->label('Kind'),
+                    }),
                 Forms\Components\Select::make('brand_id')
+                    ->translateLabel()
                     ->options(function () {
                         return Brand::all()->pluck('name', 'id');
-                    })
-                    ->label('Brand'),
+                    }),
                 Forms\Components\Select::make('inspection_list_id')
+                    ->translateLabel()
                     ->options(function () {
                         return InspectionList::all()->pluck('name', 'id');
-                    })
-                    ->label('Inspection list'),
+                    }),
             ]);
     }
 
@@ -65,31 +69,37 @@ class MachineResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('kind.name')
+                    ->translateLabel()
                     ->searchable()
-                    ->sortable()
-                    ->label('Kind'),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('brand.name')
+                    ->translateLabel()
                     ->searchable()
-                    ->sortable()
-                    ->label('Brand'),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->translateLabel()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('supplier')
+                    ->translateLabel()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('InspectionList.name')
+                    ->translateLabel()
                     ->sortable()
-                    ->searchable()
-                    ->label('Inspection list'),
+                    ->searchable(),
                 Tables\Columns\ImageColumn::make('image')
+                    ->translateLabel()
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('kind')
+                    ->translateLabel()
                     ->relationship('kind', 'name'),
                 Tables\Filters\SelectFilter::make('brand')
+                    ->translateLabel()
                     ->relationship('brand', 'name'),
                 Tables\Filters\SelectFilter::make('inspectionList')
+                    ->translateLabel()
                     ->relationship('inspectionList', 'name'),
             ])
             ->actions([
@@ -110,8 +120,8 @@ class MachineResource extends Resource
     {
         return [
             'index' => Pages\ListMachines::route('/'),
-            'create' => Pages\CreateMachine::route('/create'),
-            'edit' => Pages\EditMachine::route('/{record}/edit'),
+            'create' => Pages\CreateMachine::route('/aanmaken'),
+            'edit' => Pages\EditMachine::route('/{record}/bewerken'),
         ];
     }
 }

@@ -19,16 +19,16 @@ class Customer extends Model
     ];
 
     public const MONTHS = [
-        'january' => 'January',
-        'february' => 'February',
-        'march' => 'March',
+        'january' => 'Januari',
+        'february' => 'Februari',
+        'march' => 'Maart',
         'april' => 'April',
-        'may' => 'May',
-        'june' => 'June',
-        'july' => 'July',
-        'august' => 'August',
+        'may' => 'Mei',
+        'june' => 'Juni',
+        'july' => 'Juli',
+        'august' => 'Augustus',
         'september' => 'September',
-        'october' => 'October',
+        'october' => 'Oktober',
         'november' => 'November',
         'december' => 'December',
     ];

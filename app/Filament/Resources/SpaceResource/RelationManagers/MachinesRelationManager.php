@@ -2,20 +2,19 @@
 
 namespace App\Filament\Resources\SpaceResource\RelationManagers;
 
+use App\Filament\BaseRelationManager;
 use App\Models\Machine;
 use App\Models\Space;
 use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Collection;
 use function route;
 
-class MachinesRelationManager extends RelationManager
+class MachinesRelationManager extends BaseRelationManager
 {
-    protected static string $relationship = 'machines';
+    protected static ?string $model = Machine::class;
 
     protected static ?string $recordTitleAttribute = 'type';
 
@@ -24,6 +23,7 @@ class MachinesRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('type')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
             ]);
@@ -40,28 +40,35 @@ class MachinesRelationManager extends RelationManager
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('kind.name')
+                    ->translateLabel()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('brand.name')
+                    ->translateLabel()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->translateLabel()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('supplier')
+                    ->translateLabel()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->translateLabel(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('kind')
+                    ->translateLabel()
                     ->relationship('kind', 'name'),
                 Tables\Filters\SelectFilter::make('brand')
+                    ->translateLabel()
                     ->relationship('brand', 'name'),
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make('Add machine')
-                    ->label('Add machine')
+                Tables\Actions\AttachAction::make()
+                    ->translateLabel()
                     ->color('primary')
                     ->preloadRecordSelect(),
             ])
@@ -69,7 +76,10 @@ class MachinesRelationManager extends RelationManager
                 Tables\Actions\Action::make('open')
                     ->label('Open')
                     ->icon('heroicon-s-external-link')
-                    ->url(fn (Machine $record): string => route('filament.resources.machines.edit', $record)),
+                    ->url(function (Machine $record): string {
+                        $slug = static::getPluralModelLabel();
+                        return route("filament.resources.$slug.edit", $record);
+                    }),
                 Tables\Actions\DetachAction::make()
             ])
             ->bulkActions([
