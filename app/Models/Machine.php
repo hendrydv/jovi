@@ -24,7 +24,7 @@ class Machine extends Model
             'machines_spaces',
             'machine_id',
             'space_id',
-        );
+        )->withPivot('inventory_number');
     }
 
     public function brand(): BelongsTo
@@ -44,6 +44,6 @@ class Machine extends Model
 
     public function fullMachineName(): string
     {
-        return "{$this->kind->name} {$this->brand->name} - $this->type";
+        return "{$this->kind?->name} {$this->brand?->name} - $this->type";
     }
 }

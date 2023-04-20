@@ -15,6 +15,8 @@ use App\Models\Location;
 use App\Models\Department;
 use App\Models\Space;
 
+use Faker\Generator;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -24,6 +26,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $faker = app(Generator::class);
+
         $this->call([
             UserSeeder::class,
             MachineSeeder::class,
@@ -43,7 +47,11 @@ class DatabaseSeeder extends Seeder
                     foreach ($spaces as $space) {
                         $machines = Machine::inRandomOrder()->limit(3)->get();
 
-                        $space->machines()->attach($machines);
+                        foreach ($machines as $idx => $machine) {
+                            $space->machines()->attach($machine, [
+                                'inventory_number' => $idx + 1,
+                            ]);
+                        }
                     }
                 }
             }

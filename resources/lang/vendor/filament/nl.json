@@ -41,5 +41,7 @@
     "Question id": "Vraag",
     "Index": "Index",
     "Email": "E-mail",
-    "Is admin": "Admin"
+    "Is admin": "Admin",
+    "Inventory number": "Inventarisnummer",
+    "spaceHasInventoryNumber": "Deze ruimte heeft dit inventarisnummer gekoppeld"
 }
