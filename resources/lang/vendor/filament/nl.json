@@ -43,5 +43,7 @@
     "Email": "E-mail",
     "Is admin": "Admin",
     "Inventory number": "Inventarisnummer",
-    "spaceHasInventoryNumber": "Deze ruimte heeft dit inventarisnummer gekoppeld"
+    "spaceHasInventoryNumber": "Deze ruimte heeft dit inventarisnummer gekoppeld",
+    "Option": "Optie",
+    "Option id": "Optie"
 }
