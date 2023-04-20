@@ -29,7 +29,7 @@ class Space extends Model
             'machines_spaces',
             'space_id',
             'machine_id',
-        );
+        )->withPivot('inventory_number');
     }
 
     public function location(): HasOneThrough

@@ -16,9 +16,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('machines_spaces', function (Blueprint $table) {
-            $table->id();
             $table->foreignIdFor(Space::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Machine::class)->constrained()->cascadeOnDelete();
+            $table->bigInteger('inventory_number');
+            $table->primary(['space_id', 'inventory_number']);
         });
     }
 

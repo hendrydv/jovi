@@ -5,12 +5,13 @@ namespace App\Filament\Resources\SpaceResource\RelationManagers;
 use App\Filament\BaseRelationManager;
 use App\Models\Machine;
 use App\Models\Space;
+use Closure;
 use Exception;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Tables;
-use function route;
+use Filament\Tables\Contracts\HasRelationshipTable;
 
 class MachinesRelationManager extends BaseRelationManager
 {
@@ -68,9 +69,30 @@ class MachinesRelationManager extends BaseRelationManager
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()
-                    ->translateLabel()
                     ->color('primary')
-                    ->preloadRecordSelect(),
+                    ->preloadRecordSelect()
+                    ->form(fn (Tables\Actions\AttachAction $action): array => [
+                        $action->getRecordSelect(),
+                        Forms\Components\TextInput::make('inventory_number')
+                            ->translateLabel()
+                            ->numeric()
+                            ->required()
+                            ->rules([
+                                function (HasRelationshipTable $hasRelationShip) {
+                                    /* @var Space $space */
+                                    $space = $hasRelationShip->getRelationship()->getParent();
+                                    return function (string $attribute, $value, Closure $fail) use ($space) {
+                                        $spaceHasInventoryNumber = Space::find($space->id)
+                                            ->machines()
+                                            ->where(['inventory_number' => $value])
+                                            ->exists();
+                                        if ($spaceHasInventoryNumber) {
+                                            $fail(__('spaceHasInventoryNumber'));
+                                        }
+                                    };
+                                }
+                            ])
+                    ])
             ])
             ->actions([
                 Tables\Actions\Action::make('open')
