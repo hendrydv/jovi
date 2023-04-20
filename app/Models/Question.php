@@ -14,6 +14,16 @@ class Question extends Model
         'question',
     ];
 
+    public function options(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Option::class,
+            'questions_options',
+            'question_id',
+            'option_id',
+        );
+    }
+
     public function inspectionLists(): BelongsToMany
     {
         return $this->belongsToMany(InspectionList::class)
