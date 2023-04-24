@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
-use Filament\Facades\Filament;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,10 +30,9 @@ class AppServiceProvider extends ServiceProvider
             Filament::registerViteTheme('resources/css/app.css');
         });
 
-        $favicon = Vite::asset('resources/images/jovi_favicon.png');
-
-        Filament::pushMeta([
-            new HtmlString("<link rel='icon' type='image/x-icon' href='$favicon'/>"),
-        ]);
+        Filament::registerRenderHook('head.start', function () {
+            $favicon = Vite::asset('resources/images/jovi_favicon.png');
+            return new HtmlString("<link rel='icon' type='image/x-icon' href='$favicon'/>");
+        });
     }
 }
