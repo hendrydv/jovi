@@ -1,1 +1,1 @@
-<img src="{{ asset('resources/images/jovi.png') }}" alt="Logo" class="h-16">
+<img src="{{ Vite::asset('resources/images/jovi.png') }}" alt="Logo" class="h-16">
