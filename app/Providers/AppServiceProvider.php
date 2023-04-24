@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
 use Filament\Facades\Filament;
-use Vite;
 
 class AppServiceProvider extends ServiceProvider
 {
