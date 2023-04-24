@@ -30,7 +30,7 @@ class BaseRelationManager extends RelationManager
     public static function getModelLabel(): string
     {
         $className = static::getModelClassName();
-        return __("filament::resources/{$className}.label");
+        return __("{$className}_label");
     }
 
     /**
@@ -39,6 +39,6 @@ class BaseRelationManager extends RelationManager
     public static function getPluralModelLabel(): string
     {
         $className = static::getModelClassName();
-        return __("filament::resources/{$className}.plural_label");
+        return __("{$className}_plural_label");
     }
 }

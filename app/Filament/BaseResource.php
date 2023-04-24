@@ -23,7 +23,7 @@ class BaseResource extends Resource
     public static function getSlug(): string
     {
         $className = static::getModelClassName();
-        return __("filament::resources/{$className}.plural_label");
+        return __("{$className}_plural_label");
     }
 
     /**
@@ -32,7 +32,7 @@ class BaseResource extends Resource
     public static function getModelLabel(): string
     {
         $className = static::getModelClassName();
-        return __("filament::resources/{$className}.label");
+        return __("{$className}_label");
     }
 
     /**
@@ -41,6 +41,6 @@ class BaseResource extends Resource
     public static function getPluralModelLabel(): string
     {
         $className = static::getModelClassName();
-        return __("filament::resources/{$className}.plural_label");
+        return __("{$className}_plural_label");
     }
 }
