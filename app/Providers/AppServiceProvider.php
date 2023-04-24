@@ -30,10 +30,10 @@ class AppServiceProvider extends ServiceProvider
             Filament::registerViteTheme('resources/css/app.css');
         });
 
-        $test = Vite::asset('resources/images/jovi_favicon.png');
-
-        Filament::pushMeta([
-            new HtmlString("<link rel='icon' type='image/x-icon' href='$test'/>"),
-        ]);
+//        $test = Vite::asset('resources/images/jovi_favicon.png');
+//
+//        Filament::pushMeta([
+//            new HtmlString("<link rel='icon' type='image/x-icon' href='$test'/>"),
+//        ]);
     }
 }
