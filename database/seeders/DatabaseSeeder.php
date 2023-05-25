@@ -34,13 +34,19 @@ class DatabaseSeeder extends Seeder
             MachineSeeder::class,
         ]);
 
+        $adminUser = User::factory()->create([
+            'name' => 'Admin Admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('admin123'),
+            'is_admin' => true,
+        ]);
+
         $customers = Customer::factory()->count(10)->create();
 
         Option::factory()->count(10)->create();
 
         foreach ($customers as $customer) {
-            $user = User::all()->random();
-            $inspection = Inspection::factory()->for($customer)->for($user)->create();
+            $inspection = Inspection::factory(['date' => date('Y-m-d')])->for($customer)->for($adminUser)->create();
 
             $locations = Location::factory()->count(2)->for($customer)->create();
 
@@ -77,12 +83,5 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
-
-        User::factory()->create([
-            'name' => 'Admin Admin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('admin123'),
-            'is_admin' => true,
-        ]);
     }
 }

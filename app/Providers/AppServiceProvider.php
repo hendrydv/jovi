@@ -36,7 +36,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Filament::registerRenderHook('body.end', function () {
-            return new HtmlString("<script src='https://cdn.jsdelivr.net/npm/@preline/preline@1.0.0/dist/hs-ui.bundle.min.js'></script>");
+            $app = Vite::asset('resources/js/app.js');
+            return new HtmlString("<script type='module' src='$app'></script>");
         });
     }
 }

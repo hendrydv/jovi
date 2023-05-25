@@ -38,7 +38,6 @@ class InspectionsOverview extends Widget
                                 $spaces->each(function($space) use ($location, $department, $customer) {
 
                                     $machines = $space->machines;
-
                                     $this->inspectionMachines[$customer->name][$location->fullAddress()][$department->name][$space->name] = $machines;
                                 });
                         });

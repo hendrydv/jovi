@@ -1,5 +1,6 @@
 import './bootstrap';
-import ('preline');
+
+import('preline');
 
 import.meta.glob([
     '../images/**',
