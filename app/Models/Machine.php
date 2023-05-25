@@ -21,7 +21,7 @@ class Machine extends Model
     {
         return $this->belongsToMany(
             Space::class,
-            'machines_spaces',
+            'space_machines',
             'machine_id',
             'space_id',
         )->withPivot('inventory_number');

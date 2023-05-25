@@ -3,9 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Inspection;
+use App\Models\InspectionMachine;
 use App\Models\InspectionResult;
 use App\Models\Machine;
 use App\Models\Question;
+use App\Models\SpaceMachine;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Customer;
@@ -34,7 +36,12 @@ class DatabaseSeeder extends Seeder
 
         $customers = Customer::factory()->count(10)->create();
 
+        Option::factory()->count(10)->create();
+
         foreach ($customers as $customer) {
+            $user = User::all()->random();
+            $inspection = Inspection::factory()->for($customer)->for($user)->create();
+
             $locations = Location::factory()->count(2)->for($customer)->create();
 
             foreach ($locations as $location) {
@@ -50,6 +57,21 @@ class DatabaseSeeder extends Seeder
                             $space->machines()->attach($machine, [
                                 'inventory_number' => $idx + 1,
                             ]);
+
+                            $questions = Question::factory()->count(10)->create();
+
+                            foreach ($questions as $question) {
+                                $question->options()->attach(Option::all()->random(3));
+                            }
+
+                            $machine->inspectionList->questions()->attach($questions);
+
+                            $spaceMachine = SpaceMachine::query()->where([
+                                'space_id' => $space->id,
+                                'machine_id' => $machine->id,
+                            ])->first();
+
+                            InspectionMachine::factory()->for($inspection)->for($spaceMachine)->create();
                         }
                     }
                 }
@@ -62,22 +84,5 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin123'),
             'is_admin' => true,
         ]);
-
-        Option::factory()->count(10)->create();
-
-        foreach (Machine::all() as $machine) {
-            $questions = Question::factory()->count(10)->create();
-
-            $user = User::all()->random();
-            $inspection = Inspection::factory()->for($machine->spaces()->first())->for($machine)->for($user)->create();
-
-            foreach ($questions as $question) {
-
-                $question->options()->attach(Option::all()->random(3));
-                InspectionResult::factory()->for($inspection)->for($question)->create();
-            }
-
-            $machine->inspectionList->questions()->attach($questions);
-        }
     }
 }

@@ -3,14 +3,15 @@
 namespace Database\Factories;
 
 use App\Models\Inspection;
-use App\Models\InspectionResult;
+use App\Models\InspectionMachine;
+use App\Models\InspectionMachineResult;
 use App\Models\Question;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<InspectionResult>
+ * @extends Factory<InspectionMachineResult>
  */
-class InspectionResultFactory extends Factory
+class InspectionMachineResultFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,9 +21,9 @@ class InspectionResultFactory extends Factory
     public function definition()
     {
         return [
-            'inspection_id' => Inspection::factory(),
+            'inspection_machine_id' => InspectionMachine::factory(),
             'question_id' => Question::factory(),
-            'result' => $this->faker->randomElement(InspectionResult::RESULT_TYPES),
+            'result' => $this->faker->randomElement(InspectionMachineResult::RESULT_TYPES),
         ];
     }
 }

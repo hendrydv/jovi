@@ -5,25 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class InspectionResult extends Model
+class InspectionMachine extends Model
 {
     use HasFactory;
-
-    public const RESULT_TYPES = [
-        'pass' => 'Pass',
-        'fail' => 'Fail',
-        'na' => 'N/A',
-    ];
-
-    protected $fillable = [
-        'question_id',
-        'result',
-    ];
-
-    public function question(): BelongsTo
+    public function spaceMachine(): BelongsTo
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(SpaceMachine::class);
     }
 
     public function inspection(): BelongsTo

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\BaseResource;
 use App\Filament\Resources\InspectionResource\Pages;
 use App\Filament\Resources\InspectionResource\RelationManagers\InspectionResultsRelationManager;
+use App\Models\Customer;
 use App\Models\Inspection;
 use App\Models\Machine;
 use App\Models\Space;
@@ -29,25 +30,18 @@ class InspectionResource extends BaseResource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('space_id')
+                Forms\Components\Select::make('customer_id')
                     ->translateLabel()
                     ->options(function () {
-                        return Space::all()->mapWithKeys(function ($space) {
-                            return [$space->id => $space->fullSpaceName()];
-                        });
-                    }),
-                Forms\Components\Select::make('machine_id')
-                    ->translateLabel()
-                    ->options(function () {
-                        return Machine::all()->mapWithKeys(function ($machine) {
-                            return [$machine->id => $machine->fullMachineName()];
-                        });
-                    }),
+                        return Customer::all()->pluck('name', 'id');
+                    })
+                    ->searchable(),
                 Forms\Components\Select::make('user_id')
                     ->translateLabel()
                     ->options(function () {
                         return User::all()->pluck('name', 'id');
-                    }),
+                    })
+                    ->searchable(),
                 Forms\Components\DatePicker::make('date')
                     ->translateLabel()
                     ->required(),
@@ -66,9 +60,10 @@ class InspectionResource extends BaseResource
                 Tables\Columns\TextColumn::make('id')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('machine')
+                Tables\Columns\TextColumn::make('customer')
                     ->translateLabel()
-                    ->getStateUsing(fn (Inspection $record) => $record->machine?->fullMachineName() ?? ""),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->translateLabel()
                     ->sortable()
@@ -100,7 +95,7 @@ class InspectionResource extends BaseResource
     public static function getRelations(): array
     {
         return [
-            InspectionResultsRelationManager::class,
+            //
         ];
     }
 

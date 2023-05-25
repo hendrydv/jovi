@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Customer;
 use App\Models\Inspection;
-use App\Models\Machine;
-use App\Models\Space;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,8 +20,7 @@ class InspectionFactory extends Factory
     public function definition()
     {
         return [
-            'space_id' => Space::factory(),
-            'machine_id' => Machine::factory(),
+            'customer_id' => Customer::factory(),
             'user_id' => User::factory(),
             'date' => $this->faker->dateTimeBetween('now', '+1 week'),
             'notes' => $this->faker->text(),

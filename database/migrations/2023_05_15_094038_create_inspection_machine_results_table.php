@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\Inspection;
+use App\Models\InspectionMachine;
+use App\Models\InspectionMachineResult;
 use App\Models\InspectionResult;
 use App\Models\Question;
 use Illuminate\Database\Migrations\Migration;
@@ -14,14 +15,14 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('inspection_results', function (Blueprint $table) {
+        Schema::create('inspection_machine_results', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignIdFor(Question::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Inspection::class)->constrained()->cascadeOnDelete();
-            $table->enum('result', InspectionResult::RESULT_TYPES);
+            $table->foreignIdFor(InspectionMachine::class)->constrained()->cascadeOnDelete();
+            $table->enum('result', InspectionMachineResult::RESULT_TYPES);
         });
     }
 
@@ -30,8 +31,8 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('inspection_results');
+        Schema::dropIfExists('inspection_machine_results');
     }
 };
