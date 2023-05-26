@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Inspection;
 use App\Models\InspectionMachineResult;
 use App\Models\Question;
 use App\Models\SpaceMachine;
@@ -17,9 +18,10 @@ class InspectionMachineResultFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
+            'inspection_id' => Inspection::factory(),
             'space_machine_id' => SpaceMachine::factory(),
             'question_id' => Question::factory(),
             'result' => $this->faker->randomElement(InspectionMachineResult::RESULT_TYPES),
