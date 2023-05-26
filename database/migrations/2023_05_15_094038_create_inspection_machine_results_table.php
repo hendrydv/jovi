@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\InspectionMachine;
+use App\Models\SpaceMachine;
 use App\Models\InspectionMachineResult;
-use App\Models\InspectionResult;
 use App\Models\Question;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,7 +20,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignIdFor(Question::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(InspectionMachine::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(SpaceMachine::class)->constrained()->cascadeOnDelete();
             $table->enum('result', InspectionMachineResult::RESULT_TYPES);
         });
     }

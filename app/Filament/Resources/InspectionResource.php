@@ -57,10 +57,7 @@ class InspectionResource extends BaseResource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('customer')
+                Tables\Columns\TextColumn::make('customer.name')
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),

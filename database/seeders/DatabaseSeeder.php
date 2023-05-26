@@ -71,13 +71,6 @@ class DatabaseSeeder extends Seeder
                             }
 
                             $machine->inspectionList->questions()->attach($questions);
-
-                            $spaceMachine = SpaceMachine::query()->where([
-                                'space_id' => $space->id,
-                                'machine_id' => $machine->id,
-                            ])->first();
-
-                            InspectionMachine::factory()->for($inspection)->for($spaceMachine)->create();
                         }
                     }
                 }

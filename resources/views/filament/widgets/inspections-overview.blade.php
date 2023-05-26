@@ -1,6 +1,5 @@
 <x-filament::widget>
     <x-filament::card>
-
         <x-accordion.list>
             @foreach ($inspectionMachines as $customer => $locations)
                 <x-accordion.item :name="$customer" :first="$loop->first">
