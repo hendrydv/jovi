@@ -14,7 +14,7 @@
             </svg>
             {{ $name }}
         </button>
-        <div id="accordion-{{ $slug }}" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" aria-labelledby="accordion-{{ $slug }}">
+        <div id="accordion-{{ $slug }}" class="hs-accordion-content @if(!$first) hidden @endif w-full overflow-hidden transition-[height] duration-300" aria-labelledby="accordion-{{ $slug }}">
             {{ $slot }}
         </div>
     </div>
