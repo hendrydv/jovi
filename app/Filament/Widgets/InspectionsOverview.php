@@ -3,7 +3,6 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Inspection;
-use App\Models\Machine;
 use Filament\Widgets\Widget;
 
 class InspectionsOverview extends Widget
