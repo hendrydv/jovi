@@ -78,9 +78,9 @@ class MachinesRelationManager extends BaseRelationManager
                             ->numeric()
                             ->required()
                             ->rules([
-                                function (HasRelationshipTable $hasRelationShip) {
+                                function (HasRelationshipTable $livewire) {
                                     /* @var Space $space */
-                                    $space = $hasRelationShip->getRelationship()->getParent();
+                                    $space = $livewire->getRelationship()->getParent();
                                     return function (string $attribute, $value, Closure $fail) use ($space) {
                                         $spaceHasInventoryNumber = Space::find($space->id)
                                             ->machines()
