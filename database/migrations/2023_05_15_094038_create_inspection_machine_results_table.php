@@ -21,8 +21,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignIdFor(Question::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(InspectionMachine::class)->constrained()->cascadeOnDelete();
-            $table->enum('result', InspectionMachineResult::RESULT_TYPES);
+            $table->foreignIdFor(SpaceMachine::class)->constrained()->cascadeOnDelete();
+            $table->enum('result', InspectionMachineResult::RESULT_TYPES)->nullable();
         });
     }
 
