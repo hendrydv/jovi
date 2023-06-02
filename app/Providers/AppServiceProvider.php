@@ -34,5 +34,10 @@ class AppServiceProvider extends ServiceProvider
             $favicon = Vite::asset('resources/images/jovi_favicon.png');
             return new HtmlString("<link rel='icon' type='image/x-icon' href='$favicon'/>");
         });
+
+        Filament::registerRenderHook('body.end', function () {
+            $app = Vite::asset('resources/js/app.js');
+            return new HtmlString("<script type='module' src='$app'></script>");
+        });
     }
 }
