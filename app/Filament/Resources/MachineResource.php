@@ -65,9 +65,6 @@ class MachineResource extends BaseResource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('kind.name')
                     ->translateLabel()
                     ->searchable()

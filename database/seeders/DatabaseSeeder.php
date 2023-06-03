@@ -46,8 +46,7 @@ class DatabaseSeeder extends Seeder
         Option::factory()->count(10)->create();
 
         foreach ($customers as $customer) {
-            $user = User::all()->random();
-            $inspection = Inspection::factory()->for($customer)->for($user)->create();
+            $inspection = Inspection::factory(['date' => date('Y-m-d')])->for($customer)->for($adminUser)->create();
 
             $locations = Location::factory()->count(2)->for($customer)->create();
 
@@ -72,24 +71,10 @@ class DatabaseSeeder extends Seeder
                             }
 
                             $machine->inspectionList->questions()->attach($questions);
-
-                            $spaceMachine = SpaceMachine::query()->where([
-                                'space_id' => $space->id,
-                                'machine_id' => $machine->id,
-                            ])->first();
-
-                            InspectionMachine::factory()->for($inspection)->for($spaceMachine)->create();
                         }
                     }
                 }
             }
         }
-
-        User::factory()->create([
-            'name' => 'Admin Admin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('admin123'),
-            'is_admin' => true,
-        ]);
     }
 }

@@ -97,9 +97,6 @@ class CustomerResource extends BaseResource
 
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->translateLabel()
                     ->searchable()
