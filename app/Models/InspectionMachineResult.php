@@ -17,6 +17,8 @@ class InspectionMachineResult extends Model
     ];
 
     protected $fillable = [
+        'inspection_id',
+        'space_machine_id',
         'question_id',
         'result',
     ];
@@ -24,10 +26,5 @@ class InspectionMachineResult extends Model
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
-    }
-
-    public function inspection(): BelongsTo
-    {
-        return $this->belongsTo(InspectionMachine::class);
     }
 }

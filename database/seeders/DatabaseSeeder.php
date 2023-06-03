@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ]);
 
-        $customers = Customer::factory()->count(10)->create();
+        $customers = Customer::factory()->count(3)->create();
 
         Option::factory()->count(10)->create();
 
@@ -57,14 +57,14 @@ class DatabaseSeeder extends Seeder
                     $spaces = Space::factory()->count(2)->for($department)->create();
 
                     foreach ($spaces as $space) {
-                        $machines = Machine::inRandomOrder()->limit(3)->get();
+                        $machines = Machine::inRandomOrder()->limit(2)->get();
 
                         foreach ($machines as $idx => $machine) {
                             $space->machines()->attach($machine, [
                                 'inventory_number' => $idx + 1,
                             ]);
 
-                            $questions = Question::factory()->count(10)->create();
+                            $questions = Question::factory()->count(2)->create();
 
                             foreach ($questions as $question) {
                                 $question->options()->attach(Option::all()->random(3));

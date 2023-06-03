@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignIdFor(Inspection::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Question::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(SpaceMachine::class)->constrained()->cascadeOnDelete();
-            $table->enum('result', InspectionMachineResult::RESULT_TYPES);
+            $table->enum('result', InspectionMachineResult::RESULT_TYPES)->nullable();
         });
     }
 
