@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\BaseResource;
 use App\Filament\Resources\InspectionResource\Pages;
 use App\Filament\Resources\InspectionResource\RelationManagers\MachinesRelationManager;
+use App\Filament\Resources\InspectionResource\Widgets\ExecuteInspectionWidget;
 use App\Models\Customer;
 use App\Models\Inspection;
 use App\Models\Machine;
@@ -101,6 +102,14 @@ class InspectionResource extends BaseResource
             'index' => Pages\ListInspections::route('/'),
             'create' => Pages\CreateInspection::route('/aanmaken'),
             'edit' => Pages\EditInspection::route('/{record}/bewerken'),
+            'execute' => Pages\ExecuteInspection::route('/{inspection}/uitvoeren/{spaceMachine}'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            ExecuteInspectionWidget::class,
         ];
     }
 }

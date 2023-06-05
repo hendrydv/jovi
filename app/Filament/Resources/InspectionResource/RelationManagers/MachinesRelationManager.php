@@ -6,11 +6,10 @@ use App\Filament\BaseRelationManager;
 use App\Models\SpaceMachine;
 use Exception;
 use Filament\Forms;
-use Filament\Pages\Actions\Action;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Tables;
-use function route;
+use LiveWire\Component as LiveWire;
 
 class MachinesRelationManager extends BaseRelationManager
 {
@@ -65,8 +64,11 @@ class MachinesRelationManager extends BaseRelationManager
             ])
             ->actions([
                 Tables\Actions\Action::make('Inspectie uitvoeren')
-                ->action('inspectionUitvoeren'),
-//                ->url(route(name: 't', absolute: '~/')),
+                ->url(function ($record, LiveWire $livewire) {
+                    $inspection = $livewire->ownerRecord;
+                    $spaceMachine = $record;
+                    return route('filament.resources.inspecties.execute', [$inspection, $spaceMachine]);
+                })
             ])
             ->bulkActions([
                 //
