@@ -74,4 +74,8 @@ class MachinesRelationManager extends BaseRelationManager
                 //
             ]);
     }
+    protected function isTablePaginationEnabled(): bool
+    {
+        return false;
+    }
 }
