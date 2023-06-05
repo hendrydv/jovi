@@ -7,6 +7,7 @@ use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 class ExecuteInspectionWidget extends BaseWidget
@@ -17,6 +18,15 @@ class ExecuteInspectionWidget extends BaseWidget
     {
         $inspection = Route::current()->parameter('inspection');
         $spaceMachine = Route::current()->parameter('spaceMachine');
+
+        if ($inspection && $spaceMachine) {
+            Cache::put('inspection', $inspection);
+            Cache::put('spaceMachine', $spaceMachine);
+        } else {
+            $inspection = Cache::get('inspection');
+            $spaceMachine = Cache::get('spaceMachine');
+        }
+
         return InspectionMachineResult::query()->where([
             'inspection_id' => $inspection,
             'space_machine_id' => $spaceMachine
@@ -32,5 +42,10 @@ class ExecuteInspectionWidget extends BaseWidget
                 ->translateLabel()
                 ->options(InspectionMachineResult::RESULT_TYPES),
         ];
+    }
+
+    protected function isTablePaginationEnabled(): bool
+    {
+        return false;
     }
 }
