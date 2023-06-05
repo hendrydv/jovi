@@ -6,6 +6,7 @@ use App\Filament\BaseRelationManager;
 use App\Models\SpaceMachine;
 use Exception;
 use Filament\Forms;
+use Filament\Pages\Actions\Action;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Tables;
@@ -53,12 +54,19 @@ class MachinesRelationManager extends BaseRelationManager
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
             ])
             ->headerActions([
                 //
             ])
             ->actions([
-                //
+                Tables\Actions\Action::make('Inspectie uitvoeren')
+                ->action('inspectionUitvoeren'),
+//                ->url(route(name: 't', absolute: '~/')),
             ])
             ->bulkActions([
                 //
