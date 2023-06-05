@@ -4,11 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\BaseResource;
 use App\Filament\Resources\InspectionResource\Pages;
-use App\Filament\Resources\InspectionResource\RelationManagers\InspectionResultsRelationManager;
+use App\Filament\Resources\InspectionResource\RelationManagers\MachinesRelationManager;
 use App\Models\Customer;
 use App\Models\Inspection;
 use App\Models\Machine;
-use App\Models\Space;
 use App\Models\User;
 use Exception;
 use Filament\Forms;
@@ -92,7 +91,7 @@ class InspectionResource extends BaseResource
     public static function getRelations(): array
     {
         return [
-            //
+            MachinesRelationManager::class,
         ];
     }
 
