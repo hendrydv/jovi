@@ -14,6 +14,9 @@ class EditInspection extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\Action::make("Export")
+                    ->url(route('download.pdf', $this->record))
+                    ->openUrlInNewTab()
         ];
     }
 }
