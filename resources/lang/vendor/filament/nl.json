@@ -73,5 +73,6 @@
     "SpaceMachine_plural_label": "Inspectie machines",
     "State": "Status",
     "Comment": "Opmerking",
-    "Result": "Resultaat"
+    "Result": "Resultaat",
+    "validation.required": "Dit veld is verplicht"
 }
