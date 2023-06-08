@@ -71,5 +71,7 @@
     "Option": "Optie",
     "Option id": "Optie",
     "SpaceMachine_plural_label": "Inspectie machines",
-    "State": "Status"
+    "State": "Status",
+    "Comment": "Opmerking",
+    "Result": "Resultaat"
 }
