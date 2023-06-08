@@ -69,5 +69,6 @@
     "Inventory number": "Inventarisnummer",
     "spaceHasInventoryNumber": "Deze ruimte heeft dit inventarisnummer gekoppeld",
     "Option": "Optie",
-    "Option id": "Optie"
+    "Option id": "Optie",
+    "SpaceMachine_plural_label": "Inspectie machines"
 }
