@@ -16,11 +16,14 @@ class InspectionsOverview extends Widget
 
     public $machines = [];
 
+    public $inspection;
+
     public function mount(): void
     {
         Inspection::query()
             ->where(['user_id' => auth()->id(), 'date' => date('y-m-d')])
             ->get()->each(function($inspection){
+                $this->inspection = $inspection;
                 $customer = $inspection->customer;
 
                 $this->inspectionMachines[$customer->name] = [];
@@ -46,7 +49,26 @@ class InspectionsOverview extends Widget
 
                             $inspection_machine_results->each(function($inspection_machine_result) use ($inspection, $space, $location, $department, $customer) {
                                 $space_machine = SpaceMachine::find($inspection_machine_result->space_machine_id);
-                                $this->machines[] = $space_machine->machine;
+
+                                $results = InspectionMachineResult::query()
+                                    ->select('result')
+                                    ->where(['inspection_id' => $inspection->id, 'space_machine_id' => $space_machine->id])
+                                    ->get()
+                                    ->toArray();
+
+                                if (empty(array_filter(array_column($results, 'result'), fn ($result) => $result !== null))) {
+                                    $result = 'Niet begonnen';
+                                }else if (in_array(null, array_column($results, 'result'))) {
+                                    $result = 'Begonnen';
+                                } else {
+                                    $result = 'Afgerond';
+                                }
+
+                                $this->machines[] = [
+                                    'space_machine_id' => $space_machine->id,
+                                    'machine' => $space_machine->machine->fullMachineName(),
+                                    'state' => $result,
+                                ];
                             });
                             $this->inspectionMachines[$customer->name][$location->fullAddress()][$department->name][$space->name] = $this->machines;
                             $this->machines = [];
