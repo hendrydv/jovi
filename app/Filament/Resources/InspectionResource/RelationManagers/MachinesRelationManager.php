@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\InspectionResource\RelationManagers;
 
 use App\Filament\BaseRelationManager;
+use App\Filament\Services\InspectionService;
 use App\Models\SpaceMachine;
 use Exception;
 use Filament\Forms;
@@ -53,17 +54,19 @@ class MachinesRelationManager extends BaseRelationManager
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('State')
+                    ->getStateUsing(function ($record, LiveWire $livewire) {
+                        $inspection = $livewire->ownerRecord;
+                        return InspectionService::getInspectionState($inspection, $record);
+                    })
                     ->translateLabel()
-                    ->sortable()
                     ->searchable(),
-
             ])
             ->headerActions([
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('Inspectie uitvoeren')
+                Tables\Actions\Action::make('Inspectie bekijken')
                 ->url(function ($record, LiveWire $livewire) {
                     $inspection = $livewire->ownerRecord;
                     $spaceMachine = $record;
