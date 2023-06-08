@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\InspectionResource\Widgets;
 
+use App\Models\Inspection;
 use App\Models\InspectionMachineResult;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextInputColumn;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 class ExecuteInspectionWidget extends BaseWidget
 {
     protected int | string | array $columnSpan = 'full';
+    protected static ?string $heading = "Inspectie uitvoeren";
 
     protected function getTableQuery(): Builder
     {
@@ -41,6 +44,13 @@ class ExecuteInspectionWidget extends BaseWidget
                 ->translateLabel()
                 ->rules(['required'])
                 ->options(InspectionMachineResult::RESULT_TYPES),
+            SelectColumn::make('option')
+                ->options(function ($record) {
+                    return $record->question->options->pluck('option', 'id');
+                }),
+            TextInputColumn::make('comment')
+                ->translateLabel()
+                ->rules(['required'])
         ];
     }
 
