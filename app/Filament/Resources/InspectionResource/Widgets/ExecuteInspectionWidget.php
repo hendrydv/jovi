@@ -18,7 +18,13 @@ class ExecuteInspectionWidget extends BaseWidget
     {
         parent::__construct($id);
 
-        $spaceMachine = SpaceMachine::find(Route::current()->parameter('spaceMachine'));
+        $spaceMachineId = Route::current()->parameter('spaceMachine');
+
+        if (!$spaceMachineId) {
+            $spaceMachineId = request()->session()->get("space_machine_$this->id");
+        }
+
+        $spaceMachine = SpaceMachine::find($spaceMachineId);
         $machine = $spaceMachine->machine->fullMachineName();
         static::$heading = "Inspectie uitvoeren voor: '$machine'";
     }
