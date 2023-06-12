@@ -3,6 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Models\Customer;
+use App\Models\Department;
+use App\Models\Location;
+use App\Models\Space;
 use App\Models\User;
 use ErrorException;
 use Exception;
@@ -61,7 +64,26 @@ class ConvertDatabase extends Command
             }
 
             $adressen = $db->select('select * from adressen');
-            dd($adressen);
+
+            foreach ($adressen as $adres){
+                $location = new Location();
+                $location->id = $adres->AdresPrimary;
+                $location->customer_id = $adres->Relatienummer;
+                $location->street = $adres->Adres;
+                $location->city = $adres->Plaats;
+                $location->save();
+            }
+
+//            $afdelingen = $db->select('select * from afdelingen left join ruimtes on afdelingen.Afdelingsnummer = ruimtes.Afdelingsnummer');
+//
+//            foreach ($afdelingen as $afdeling){
+//                $department = new Department();
+//                $department->id = $afdeling->Afdelingsnummer;
+//                $department->name = $afdeling->Afdelingsnaam;
+//                dd($afdeling->Adres);
+//                $department->location_id = $afdeling->Adress;
+//                $department->save();
+//            }
 
         } catch (Exception | ErrorException | QueryException $e) {
             DB::rollBack();

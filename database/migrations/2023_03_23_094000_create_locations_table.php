@@ -19,8 +19,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
             $table->string('street');
-            $table->string('house_number');
-            $table->string('zip_code');
+            $table->string('house_number')->nullable();
+            $table->string('zip_code')->nullable();
             $table->string('city');
         });
     }
