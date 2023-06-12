@@ -29,6 +29,16 @@ class InspectionMachineResult extends Model
         return $this->belongsTo(Question::class);
     }
 
+    public function inspection(): BelongsTo
+    {
+        return $this->belongsTo(Inspection::class);
+    }
+
+    public function spaceMachine(): BelongsTo
+    {
+        return $this->belongsTo(SpaceMachine::class);
+    }
+
     public function space_machine(): BelongsTo
     {
         return $this->belongsTo(SpaceMachine::class);

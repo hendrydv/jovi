@@ -25,7 +25,6 @@ class MachineFactory extends Factory
             'supplier' => $this->faker->word,
             'kind_id' => Kind::factory(),
             'brand_id' => Brand::factory(),
-            'inspection_list_id' => InspectionList::factory(),
         ];
     }
 }

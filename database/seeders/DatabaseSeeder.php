@@ -3,11 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\Inspection;
+use App\Models\InspectionList;
 use App\Models\InspectionMachine;
+use App\Models\InspectionMachineResult;
 use App\Models\InspectionResult;
 use App\Models\Machine;
 use App\Models\Question;
 use App\Models\SpaceMachine;
+use Database\Factories\InspectionMachineResultFactory;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Customer;
@@ -32,6 +35,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             MachineSeeder::class,
+            OptionSeeder::class,
         ]);
 
         $adminUser = User::factory()->create([
@@ -43,7 +47,13 @@ class DatabaseSeeder extends Seeder
 
         $customers = Customer::factory()->count(3)->create();
 
-        Option::factory()->count(10)->create();
+        Question::factory()->count(50)->create()->each(function ($question) {
+            $question->options()->attach(Option::all()->random(3));
+        });
+
+        InspectionList::factory()->count(5)->create()->each(function ($inspectionList) {
+            $inspectionList->questions()->attach(Question::all()->random(10));
+        });
 
         foreach ($customers as $customer) {
             $inspection = Inspection::factory(['date' => date('Y-m-d')])->for($customer)->for($adminUser)->create();
@@ -57,20 +67,25 @@ class DatabaseSeeder extends Seeder
                     $spaces = Space::factory()->count(2)->for($department)->create();
 
                     foreach ($spaces as $space) {
-                        $machines = Machine::inRandomOrder()->limit(2)->get();
+                        $machines = Machine::all()->random(2);
 
                         foreach ($machines as $idx => $machine) {
                             $space->machines()->attach($machine, [
                                 'inventory_number' => $idx + 1,
                             ]);
 
-                            $questions = Question::factory()->count(2)->create();
-
-                            foreach ($questions as $question) {
-                                $question->options()->attach(Option::all()->random(3));
+                            $inspectionList = InspectionList::all()->random();
+                            foreach ($inspectionList->questions as $question) {
+                                $spaceMachine = SpaceMachine::where([
+                                    'space_id' => $space->id,
+                                    'machine_id' => $machine->id,
+                                ])->first();
+                                InspectionMachineResult::factory([
+                                    'result' => null,
+                                ])->for($inspection)->for($spaceMachine)->for($question)->create();
                             }
 
-                            $machine->inspectionList->questions()->attach($questions);
+                            $machine->inspectionList()->associate($inspectionList);
                         }
                     }
                 }

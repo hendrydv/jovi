@@ -17,14 +17,11 @@ class InspectionsOverview extends Widget
 
     public $machines = [];
 
-    public $inspection;
-
     public function mount(): void
     {
         Inspection::query()
             ->where(['user_id' => auth()->id(), 'date' => date('y-m-d')])
             ->get()->each(function($inspection){
-                $this->inspection = $inspection;
                 $customer = $inspection->customer;
 
                 $this->inspectionMachines[$customer->name] = [];
@@ -57,6 +54,7 @@ class InspectionsOverview extends Widget
                                     'space_machine_id' => $space_machine->id,
                                     'machine' => $space_machine->machine->fullMachineName(),
                                     'state' => $result,
+                                    'inspection_id' => $inspection->id,
                                 ];
                             });
                             $this->inspectionMachines[$customer->name][$location->fullAddress()][$department->name][$space->name] = $this->machines;

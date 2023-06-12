@@ -27,7 +27,7 @@
                                                                             <td class="border px-4 py-3">{{ $machine['machine'] }}</td>
                                                                             <td class="border px-4 py-3">{{$machine['state']}}</td>
                                                                             <td class="border px-4 py-3">
-                                                                                <x-filament::link icon="heroicon-s-pencil" href="/inspecties/{{$inspection->id}}/uitvoeren/{{$machine['space_machine_id']}}">
+                                                                                <x-filament::link icon="heroicon-s-pencil" href="/inspecties/{{$machine['inspection_id']}}/uitvoeren/{{$machine['space_machine_id']}}">
                                                                                     Uitvoeren
                                                                                 </x-filament::link>
                                                                             </td>
