@@ -77,5 +77,6 @@
     "validation.required": "Dit veld is verplicht",
     "InspectionType_plural_label": "Inspectiesoorten",
     "InspectionType_label": "Inspectiesoort",
-    "Inspection type id": "Inspectiesoort"
+    "Inspection type id": "Inspectiesoort",
+    "Inspection type": "Inspectiesoort"
 }
