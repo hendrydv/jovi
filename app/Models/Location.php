@@ -32,4 +32,14 @@ class Location extends Model
     {
         return "$this->street $this->house_number, $this->zip_code $this->city";
     }
+
+    public function fullAddressArr(): array
+    {
+        return [
+            $this->street,
+            $this->house_number,
+            $this->zip_code,
+            $this->city,
+        ];
+    }
 }
