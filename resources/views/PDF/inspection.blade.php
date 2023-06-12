@@ -6,13 +6,13 @@
         }
 
         tr:nth-child(even) {
-            background-color: #FFCBD1;
+            background-color: #DDDDDD;
         }
     </style>
 </head>
 <body>
 <header>
-    <img src="{{Vite::asset('resources/images/jovi.png')}}" alt="Logo" class="h-16">
+    <img src="{{ Vite::asset('resources/images/jovi.png') }}" alt="Logo" class="h-16">
     <h1>Inspectie rapport:</h1>
 </header>
 <div class="company-info">
