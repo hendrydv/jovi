@@ -74,5 +74,8 @@
     "State": "Status",
     "Comment": "Opmerking",
     "Result": "Resultaat",
-    "validation.required": "Dit veld is verplicht"
+    "validation.required": "Dit veld is verplicht",
+    "InspectionType_plural_label": "Inspectiesoorten",
+    "InspectionType_label": "Inspectiesoort",
+    "Inspection type id": "Inspectiesoort"
 }

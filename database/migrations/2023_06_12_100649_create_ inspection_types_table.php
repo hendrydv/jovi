@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\InspectionMachineResult;
-use App\Models\Option;
+use App\Models\InspectionType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,8 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('inspection_machine_results', function (Blueprint $table) {
-            $table->foreignIdFor(Option::class)->nullable()->constrained()->nullOnDelete();
+        Schema::create('inspection_types', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('name');
         });
     }
 
@@ -27,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('inspection_machine_results', function (Blueprint $table) {
-            $table->dropColumn('option_id');
-        });
+        Schema::dropIfExists('inspection_types');
     }
 };

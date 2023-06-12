@@ -9,9 +9,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Inspection>
+ * @extends Factory<InspectionType>
  */
-class InspectionFactory extends Factory
+class InspectionTypeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,11 +21,7 @@ class InspectionFactory extends Factory
     public function definition()
     {
         return [
-            'customer_id' => Customer::factory(),
-            'user_id' => User::factory(),
-            'inspection_type_id' => InspectionType::factory(),
-            'date' => $this->faker->dateTimeBetween('now', '+1 week'),
-            'notes' => $this->faker->text(),
+            'name' => $this->faker->word,
         ];
     }
 }

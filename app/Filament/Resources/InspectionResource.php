@@ -8,6 +8,7 @@ use App\Filament\Resources\InspectionResource\RelationManagers\MachinesRelationM
 use App\Filament\Resources\InspectionResource\Widgets\ExecuteInspectionWidget;
 use App\Models\Customer;
 use App\Models\Inspection;
+use App\Models\InspectionType;
 use App\Models\Machine;
 use App\Models\User;
 use Exception;
@@ -42,6 +43,12 @@ class InspectionResource extends BaseResource
                         return User::all()->pluck('name', 'id');
                     })
                     ->searchable(),
+                Forms\Components\Select::make('inspection_type_id')
+                    ->translateLabel()
+                    ->options(function () {
+                        return InspectionType::all()->pluck('name', 'id');
+                    })
+                    ->searchable(),
                 Forms\Components\DatePicker::make('date')
                     ->translateLabel()
                     ->required(),
@@ -62,6 +69,10 @@ class InspectionResource extends BaseResource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('inspection_type.name')
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
