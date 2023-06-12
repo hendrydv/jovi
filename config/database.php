@@ -63,6 +63,15 @@ return [
             ]) : [],
         ],
 
+        'mysql_acces' => [
+            'driver'    => env('DB_CONNECTION_ACCES'),
+            'host'      => env('DB_HOST_ACCES'),
+            'port'      => env('DB_PORT_ACCES'),
+            'database'  => env('DB_DATABASE_ACCES'),
+            'username'  => env('DB_USERNAME_ACCES'),
+            'password'  => env('DB_PASSWORD_ACCES'),
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

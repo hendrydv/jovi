@@ -19,9 +19,9 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->date('contract_start_date');
-            $table->date('contract_end_date');
+            $table->date('contract_end_date')->nullable();
             $table->boolean('is_active');
-            $table->enum('preferred_month', array_keys(Customer::MONTHS));
+            $table->enum('preferred_month', array_keys(Customer::MONTHS))->nullable();
             $table->text('notes')->nullable();
         });
     }
