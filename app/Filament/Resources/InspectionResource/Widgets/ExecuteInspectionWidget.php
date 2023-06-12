@@ -59,7 +59,7 @@ class ExecuteInspectionWidget extends BaseWidget
                 ->translateLabel()
                 ->rules(['required'])
                 ->options(InspectionMachineResult::RESULT_TYPES),
-            SelectColumn::make('option')
+            SelectColumn::make('option_id')
                 ->translateLabel()
                 ->options(function ($record) {
                     return $record->question->options->pluck('option', 'option');

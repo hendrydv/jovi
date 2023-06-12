@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\InspectionMachineResult;
+use App\Models\Option;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('inspection_machine_results', function (Blueprint $table) {
-            $table->string('option')->nullable()->after('result');
+            $table->foreignIdFor(Option::class)->nullable()->constrained()->nullOnDelete();
+//            $table->string('option_id')->nullable()->after('result');
         });
     }
 
@@ -27,7 +29,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('inspection_machine_results', function (Blueprint $table) {
-            $table->dropColumn('option');
+            $table->dropColumn('option_id');
         });
     }
 };

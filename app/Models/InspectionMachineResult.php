@@ -20,6 +20,7 @@ class InspectionMachineResult extends Model
         'inspection_id',
         'space_machine_id',
         'question_id',
+        'option_id',
         'result',
     ];
 

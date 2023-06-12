@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('inspection_machine_results', function (Blueprint $table) {
-            $table->text('comment')->nullable()->after('option');
+            $table->text('comment')->nullable()->after('option_id');
         });
     }
 
