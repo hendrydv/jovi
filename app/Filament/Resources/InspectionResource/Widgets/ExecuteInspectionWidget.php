@@ -62,7 +62,7 @@ class ExecuteInspectionWidget extends BaseWidget
             SelectColumn::make('option')
                 ->translateLabel()
                 ->options(function ($record) {
-                    return $record->question->options->pluck('option', 'id');
+                    return $record->question->options->pluck('option', 'option');
                 }),
             TextInputColumn::make('comment')
                 ->translateLabel()

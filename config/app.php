@@ -186,6 +186,7 @@ return [
          * Package Service Providers...
          */
         Spatie\EloquentSortable\EloquentSortableServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
