@@ -33,4 +33,9 @@ class InspectionMachineResult extends Model
     {
         return $this->belongsTo(SpaceMachine::class);
     }
+
+    public function option(): BelongsTo
+    {
+        return $this->belongsTo(Option::class);
+    }
 }

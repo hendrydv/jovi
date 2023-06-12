@@ -62,7 +62,7 @@
                 <td>@if($result->space_machine->machine->fullMachineName() != $oldMachine){{$result->space_machine->machine->fullMachineName()}}@endif</td>
                 <td>{{$result->question->question}}</td>
                 <td>@if($result->result != null){{$result->result}}@else --- @endif</td>
-                <td>@if($result->option != null){{$result->option}}@else --- @endif</td>
+                <td>@if($result->option != null){{$result->option->option}}@else --- @endif</td>
                 <td>@if($result->comment != null){{$result->comment}}@else --- @endif</td>
             </tr>
 
