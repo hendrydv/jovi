@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('type');
             $table->string('image')->nullable();
-            $table->string('supplier');
+            $table->string('supplier')->nullable();
         });
     }
 

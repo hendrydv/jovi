@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Brand;
 use App\Models\Customer;
 use App\Models\Department;
+use App\Models\Kind;
 use App\Models\Location;
+use App\Models\Machine;
 use App\Models\Space;
 use App\Models\User;
 use ErrorException;
@@ -122,6 +125,47 @@ class ConvertDatabase extends Command
                 }
                 $this->info("--------------------");
             }
+
+            $merken = $db->select('select distinct Merk from machines_algemeen');
+            foreach ($merken as $merk){
+                $brand = new Brand();
+                $brand->name = ucfirst(strtolower($merk->Merk));
+                $brand->save();
+            }
+
+            $omschrijvingen = $db->select('select distinct Omschrijving from machines_algemeen');
+            foreach ($omschrijvingen as $omschrijving){
+                $kind = new Kind();
+                $kind->name = ucfirst(strtolower($omschrijving->Omschrijving));
+                $kind->save();
+            }
+
+            $machines_algemeen = $db->select('select * from machines_algemeen');
+
+            foreach ($machines_algemeen as $machine_algemeen){
+                $machine = new Machine();
+                $machine->id = $machine_algemeen->Machine_Index;
+                $machine->type = $machine_algemeen->Type;
+                $machine->brand_id = Brand::where('name', ucfirst(strtolower($machine_algemeen->Merk)))->first()->id;
+                $machine->kind_id = Kind::where('name', ucfirst(strtolower($machine_algemeen->Omschrijving)))->first()->id;
+                $machine->supplier = $machine_algemeen->Leverancier;
+                //$machine->inspection_list_id = $machines_algemeen->Inspectielijst;
+                $machine->save();
+            }
+
+            $machines_onderhoud = $db->select('select * from machines_onderhoud');
+            foreach ($machines_onderhoud as $machine_onderhoud){
+                $space = Space::where('id', $machine_onderhoud->Ruimtenummer)->first();
+                $machine = Machine::find($machine_onderhoud->Machine_Index);
+                $space->machines()->attach($machine, [
+                    'id' => $machine_onderhoud->Machines_onderhoudPrimary,
+                    'inventory_number' => $machine_onderhoud->Intern_nummer,
+                ]);
+
+                $machine->save();
+            }
+
+
         } catch (Exception | ErrorException | QueryException $e) {
             $this->info("Something went wrong: " . $e->getMessage());
             DB::rollBack();
