@@ -11,5 +11,11 @@ class InspectionType extends Model
 
     protected $fillable = [
         'name',
+        'inspection_list_id',
     ];
+
+    public function inspectionList()
+    {
+        return $this->belongsTo(InspectionList::class);
+    }
 }

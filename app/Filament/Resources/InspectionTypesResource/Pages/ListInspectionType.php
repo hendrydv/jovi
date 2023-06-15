@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources\InspectionTypesResource\Pages;
 
-use App\Filament\Resources\InspectionTypesResource;
+use App\Filament\Resources\InspectionTypeResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListInspectionTypes extends ListRecords
+class ListInspectionType extends ListRecords
 {
-    protected static string $resource = InspectionTypesResource::class;
+    protected static string $resource = InspectionTypeResource::class;
 
     protected function getActions(): array
     {

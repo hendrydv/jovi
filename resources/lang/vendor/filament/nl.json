@@ -78,5 +78,6 @@
     "InspectionType_plural_label": "Inspectiesoorten",
     "InspectionType_label": "Inspectiesoort",
     "Inspection type id": "Inspectiesoort",
-    "Inspection type": "Inspectiesoort"
+    "Inspection type": "Inspectiesoort",
+    "validation.unique": "Dit veld moet uniek zijn en is al eerder geselecteerd voor een ander."
 }

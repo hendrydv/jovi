@@ -22,19 +22,17 @@ class CreateInspection extends CreateRecord
             ->get()
             ->each(function($inspection) {
 
-                $inspection_id = $inspection->id; // get inspection id
-
                 $locations = $inspection->customer->locations;
-                $locations->each(function($location) use ($inspection_id){
+                $locations->each(function($location) use ($inspection){
 
                     $departments = $location->departments;
-                    $departments->each(function($department) use ($inspection_id) {
+                    $departments->each(function($department) use ($inspection) {
 
                         $spaces = $department->spaces;
-                        $spaces->each(function($space) use ($inspection_id) {
+                        $spaces->each(function($space) use ($inspection) {
 
                             $machines = $space->machines;
-                            $machines->each(function($machine) use ($inspection_id) {
+                            $machines->each(function($machine) use ($inspection) {
 
                                 $space_id = $machine->pivot->space_id;
                                 $machine_id = $machine->id;
@@ -44,19 +42,23 @@ class CreateInspection extends CreateRecord
                                     ->where(['space_id' => $space_id, 'machine_id' => $machine_id, 'inventory_number' => $inventory_number])
                                     ->get();
 
-                                $space_machines->each(function($space_machine) use ($machine, $inspection_id)  {
+                                $space_machines->each(function($space_machine) use ($machine, $inspection)  {
                                     $space_machine_id = $space_machine->id; // get space_machine id
                                     $inspectionList = $machine->inspectionList;
+
+                                    if ($inspection->inspectionType?->inspectionList) {
+                                        $inspectionList = $inspection->inspectionType->inspectionList;
+                                    }
 
                                     if ($inspectionList == null) {
                                         return;
                                     }
 
                                     $questions = $inspectionList->questions;
-                                    $questions->each(function($question) use ($inspection_id, $space_machine_id) {
+                                    $questions->each(function($question) use ($inspection, $space_machine_id) {
                                         $question_id = $question->id; // get question id
                                         InspectionMachineResult::create([
-                                            'inspection_id' => $inspection_id,
+                                            'inspection_id' => $inspection->id,
                                             'space_machine_id' => $space_machine_id,
                                             'question_id' => $question_id,
                                             'result' => null,
