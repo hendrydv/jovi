@@ -16,7 +16,7 @@
     {{$oldDepartment = null}}
     {{$oldSpace = null}}
     {{$oldMachine = null}}
-    @foreach($record->results as $result)
+    @foreach($record->inspectionMachineResults as $result)
         <tr>
             <td>@if($result->space_machine->space->department->location->fullAddress() != $oldLocation){{$result->space_machine->space->department->location->fullAddress()}}@endif</td>
             <td>@if($result->space_machine->space->department->name != $oldDepartment){{$result->space_machine->space->department->name}}@endif</td>
