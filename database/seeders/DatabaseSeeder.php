@@ -86,6 +86,8 @@ class DatabaseSeeder extends Seeder
                             }
 
                             $machine->inspectionList()->associate($inspectionList);
+
+                            $machine->save();
                         }
                     }
                 }
