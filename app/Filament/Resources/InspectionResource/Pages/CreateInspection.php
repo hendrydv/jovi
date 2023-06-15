@@ -48,6 +48,10 @@ class CreateInspection extends CreateRecord
                                     $space_machine_id = $space_machine->id; // get space_machine id
                                     $inspectionList = $machine->inspectionList;
 
+                                    if ($inspectionList == null) {
+                                        return;
+                                    }
+
                                     $questions = $inspectionList->questions;
                                     $questions->each(function($question) use ($inspection_id, $space_machine_id) {
                                         $question_id = $question->id; // get question id

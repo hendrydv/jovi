@@ -36,19 +36,22 @@ class InspectionResource extends BaseResource
                     ->options(function () {
                         return Customer::all()->pluck('name', 'id');
                     })
-                    ->searchable(),
+                    ->searchable()
+                    ->required(),
                 Forms\Components\Select::make('user_id')
                     ->translateLabel()
                     ->options(function () {
                         return User::all()->pluck('name', 'id');
                     })
-                    ->searchable(),
+                    ->searchable()
+                    ->required(),
                 Forms\Components\Select::make('inspection_type_id')
                     ->translateLabel()
                     ->options(function () {
                         return InspectionType::all()->pluck('name', 'id');
                     })
-                    ->searchable(),
+                    ->searchable()
+                    ->required(),
                 Forms\Components\DatePicker::make('date')
                     ->translateLabel()
                     ->required(),
