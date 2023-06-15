@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Question extends Model
 {
@@ -31,8 +32,8 @@ class Question extends Model
             ->withPivot('index');
     }
 
-    public function inspectionResults()
+    public function inspectionMachineResults(): HasMany
     {
-        return $this->hasMany(InspectionResult::class);
+        return $this->hasMany(InspectionMachineResult::class);
     }
 }

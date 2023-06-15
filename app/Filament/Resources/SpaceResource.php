@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\BaseResource;
 use App\Filament\Resources\SpaceResource\Pages;
 use App\Filament\Resources\SpaceResource\RelationManagers;
+use App\Models\Location;
 use App\Models\Space;
 use Exception;
 use Filament\Forms;
@@ -66,6 +67,19 @@ class SpaceResource extends BaseResource
                 Tables\Filters\SelectFilter::make('department')
                     ->translateLabel()
                     ->relationship('department', 'name'),
+                Tables\Filters\SelectFilter::make('location')
+                    ->translateLabel()
+                    ->options(function () {
+                        return Location::all()->mapWithKeys(function ($location) {
+                            $customer = $location->customer?->name;
+                            if (!$customer) {
+                                return [];
+                            }
+                            return [$location->id => "$customer - {$location->fullAddress()}"];
+                        });
+                    })
+                    ->multiple()
+                    ->relationship('location', 'id'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
