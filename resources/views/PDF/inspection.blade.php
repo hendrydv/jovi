@@ -18,16 +18,16 @@
 <div class="company-info">
     <p>Bedrijfsnaam: {{$record->customer->name}}</p>
     <div class="address">
-        @php $addresArr = $record->inspectionMachineResults->First()->space_machine->space->department->location->fullAddressArr()@endphp
+        @php $location = $record->inspectionMachineResults->first()->space_machine->space->department->location@endphp
         <p>Adresgegevens:</p>
-        <p>{{$addresArr[0]}}, {{$addresArr[1]}}</p>
-        <p>{{$addresArr[3]}}, {{$addresArr[2]}}</p>
+        <p>{{ $location->street }}, {{ $location->house_number }}</p>
+        <p>{{ $location->zip_code }}, {{ $location->city }}</p>
     </div>
 </div>
 <div class="Inspection-details">
-    <p>Inspectie datum: {{$record->date}}</p>
-    <p>Inspectie locatie: {{$record->inspectionMachineResults->First()->space_machine->space->department->location->fullAddress()}}</p>
-    <p>Inspectie uitgevoerd door: {{$record->user->name}}</p>
+    <p>Inspectie datum: {{ $record->date }}</p>
+    <p>Inspectie locatie: {{ $record->inspectionMachineResults->first()->space_machine->space->department->location->fullAddress() }}</p>
+    <p>Inspectie uitgevoerd door: {{ $record->user->name }}</p>
 </div>
 <div class="Inspection-table">
     {{$oldDepartment = null}}
@@ -35,7 +35,7 @@
     {{$oldMachine = null}}
     @foreach($record->inspectionMachineResults as $result)
         @if($result->space_machine->space->department->name != $oldDepartment)
-            <h3>Afdeling: {{$result->space_machine->space->department->name}}</h3>
+            <h3>Afdeling: {{ $result->space_machine->space->department->name }}</h3>
             @php $oldDepartment = $result->space_machine->space->department->name @endphp
             @endif
 
