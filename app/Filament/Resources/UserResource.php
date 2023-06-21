@@ -10,6 +10,7 @@ use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends BaseResource
 {
@@ -36,7 +37,13 @@ class UserResource extends BaseResource
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_admin')
                     ->translateLabel()
-                    ->required()
+                    ->required(),
+                Forms\Components\TextInput::make('password')
+                    ->translateLabel()
+                    ->password()
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $context): bool => $context === 'create')
             ]);
     }
 
