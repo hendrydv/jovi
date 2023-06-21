@@ -10,6 +10,8 @@ class SpaceMachine extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function space(): BelongsTo
     {
         return $this->belongsTo(Space::class);

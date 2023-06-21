@@ -21,6 +21,7 @@ class SpaceMachineFactory extends Factory
         return [
             'space_id' => Space::factory(),
             'machine_id' => Machine::factory(),
+            'inventory_number' => $this->faker->unique()->numberBetween(1, 1000),
         ];
     }
 }

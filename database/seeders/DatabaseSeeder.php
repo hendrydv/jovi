@@ -45,7 +45,14 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ]);
 
-        $customers = Customer::factory()->count(3)->create();
+        $inspectionUser = User::factory()->create([
+            'name' => 'Gebruiker Gebruiker',
+            'email' => 'gebruiker@gebruiker.com',
+            'password' => bcrypt('gebruiker123'),
+            'is_admin' => false,
+        ]);
+
+        $customers = Customer::factory()->count(2)->create();
 
         Question::factory()->count(50)->create()->each(function ($question) {
             $question->options()->attach(Option::all()->random(3));
@@ -56,7 +63,7 @@ class DatabaseSeeder extends Seeder
         });
 
         foreach ($customers as $customer) {
-            $inspection = Inspection::factory(['date' => date('Y-m-d')])->for($customer)->for($adminUser)->create();
+            $inspection = Inspection::factory(['date' => date('Y-m-d')])->for($customer)->for($inspectionUser)->create();
 
             $locations = Location::factory()->count(2)->for($customer)->create();
 
