@@ -60,4 +60,21 @@ class InspectionMachineResultService
             });
         });
     }
+
+    /**
+     * @param InspectionMachineResult[] $inspectionMachineResults
+     * @return string
+     */
+    public static function getStateFromInspectionMachineResults(array $inspectionMachineResults): string
+    {
+        if (empty(array_filter(array_column($inspectionMachineResults, 'result'), fn ($inspectionMachineResult) => $inspectionMachineResult !== null))) {
+            return InspectionService::NOT_STARTED;
+        }
+
+        if (in_array(null, array_column($inspectionMachineResults, 'result'))) {
+            return InspectionService::STARTED;
+        }
+
+        return InspectionService::FINISHED;
+    }
 }
