@@ -7,7 +7,7 @@ Gebasseerd op het Back-end framework Laravel en werkt met het admin panel Filame
 ## Commands
 
 ### Eerste keer
-- `Composer install` Alle composer packages installeren
+- `docker run --rm --interactive --tty --volume $PWD:/app --user $(id -u):$(id -g) composer install` Alle composer packages installeren
 - `npm install` Alle NPM packages installeren
 - `php artisan migrate` Database installeren
 - `php artisan migrate:fresh --seed` Alle migrations opnieuw runnen en database seeden
