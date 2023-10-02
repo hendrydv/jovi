@@ -28,6 +28,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('inspection_machine_results', function (Blueprint $table) {
+            $table->dropForeign(['option_id']);
             $table->dropColumn('option_id');
         });
     }
